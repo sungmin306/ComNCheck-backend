@@ -1,4 +1,4 @@
-package com.ComNCheck.ComNCheck.domain.Member.security;
+package com.ComNCheck.ComNCheck.domain.Member.security.filter;
 
 import com.ComNCheck.ComNCheck.domain.Member.util.TokenProvider;
 import jakarta.servlet.FilterChain;
