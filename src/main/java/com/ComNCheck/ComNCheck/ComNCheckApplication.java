@@ -20,7 +20,6 @@ public class ComNCheckApplication {
 		System.setProperty("JWT_EXPIRATIONMS",dotenv.get("JWT_EXPIRATIONMS"));
 		System.setProperty("GOOGLE_REDIRECT_URI",dotenv.get("GOOGLE_REDIRECT_URI"));
 		SpringApplication.run(ComNCheckApplication.class, args);
-
 	}
 
 }

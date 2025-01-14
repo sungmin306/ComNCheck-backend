@@ -11,7 +11,6 @@ public enum Role {
     ROLE_MAJOR_PRESIDENT("ROLE_MAJOR_PRESIDENT"),
     ROLE_STUDENT_COUNCIL("ROLE_STUDENT_COINCIL"),
     ROLE_STUDENT("ROLE_STUDENT");
-    //졸업생 -> 2차
     private final String value;
 
     Role(String value) {
