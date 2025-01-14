@@ -1,5 +1,5 @@
 package com.ComNCheck.ComNCheck.domain.Member.service;
-import com.ComNCheck.ComNCheck.domain.Member.model.dto.CustomOAuth2Member;
+import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
 import com.ComNCheck.ComNCheck.domain.Member.model.dto.response.MemberDTO;
 import com.ComNCheck.ComNCheck.domain.Member.model.entity.Member;
 import com.ComNCheck.ComNCheck.domain.Member.model.entity.Role;
@@ -27,15 +27,14 @@ public class CustomOAuthMemberService extends DefaultOAuth2UserService {
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
 
-
         // 이메일 변경 생각해서 이메일로 찾으면 안될꺼같음
         Member member = memberRepository.findByEmail(email).orElseGet(() -> {
             Member newMember = Member.builder()
                     .email(email)
                     .name(name)
-                    .major("컴공")
+                    .major("컴공") // 구글에서 받는 정보 보고 나서 변경해야함
                     .role(Role.ROLE_STUDENT)
-                    .studentNumber(123124)
+                    .studentNumber(12345678)// 난수 변수 값 만드는 메서드 만들어야함
                     .build();
             memberRepository.save(newMember);
             return newMember;

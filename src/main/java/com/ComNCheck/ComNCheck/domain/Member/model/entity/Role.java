@@ -29,4 +29,5 @@ public enum Role {
     public String serializeRole(){
         return this.value;
     }
+
 }

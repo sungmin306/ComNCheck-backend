@@ -1,7 +1,7 @@
-package com.ComNCheck.ComNCheck.domain.Member.security.handler;
+package com.ComNCheck.ComNCheck.domain.security.handler;
 
-import com.ComNCheck.ComNCheck.domain.Member.model.dto.CustomOAuth2Member;
-import com.ComNCheck.ComNCheck.domain.Member.util.JWTUtil;
+import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
+import com.ComNCheck.ComNCheck.domain.security.util.JWTUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,7 +40,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     private Cookie createCookie(String key, String value) {
-
         Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(60*60*60);
         //cookie.setSecure(true);

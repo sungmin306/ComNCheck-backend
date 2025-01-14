@@ -1,9 +1,9 @@
-package com.ComNCheck.ComNCheck.domain.Member.security.config;
+package com.ComNCheck.ComNCheck.domain.security.config;
 
-import com.ComNCheck.ComNCheck.domain.Member.security.filter.JWTFilter;
-import com.ComNCheck.ComNCheck.domain.Member.security.handler.CustomSuccessHandler;
+import com.ComNCheck.ComNCheck.domain.security.filter.JWTFilter;
+import com.ComNCheck.ComNCheck.domain.security.handler.CustomSuccessHandler;
 import com.ComNCheck.ComNCheck.domain.Member.service.CustomOAuthMemberService;
-import com.ComNCheck.ComNCheck.domain.Member.util.JWTUtil;
+import com.ComNCheck.ComNCheck.domain.security.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +58,7 @@ public class SecurityConfig {
                                 .baseUri("/login/oauth2/code/*")
                         )
 //                        .userInfoEndpoint(userInfo -> userInfo
-//                                .userService(customOAuth2UserService)
+//                                .userService(customOAuth2MemberService)
 //                        )
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2MemberService))
