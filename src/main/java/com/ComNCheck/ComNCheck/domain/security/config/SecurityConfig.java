@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login/**", "/oauth2/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll() // H2 Console 접근 허용 -> 디비 변경 시 제거
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -64,6 +65,8 @@ public class SecurityConfig {
                                 .userService(customOAuth2MemberService))
                                 .successHandler(customSuccessHandler)
                 );
+        //H2 Console 관련 헤더 설정 -> 디비 변경 시 제거
+        http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
         http.addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
