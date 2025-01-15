@@ -24,7 +24,7 @@ public class Member {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "department", nullable = false)
+    @Column(name = "major", nullable = false)
     private String major;
 
     @Column(name = "studnet_number", nullable = false)
