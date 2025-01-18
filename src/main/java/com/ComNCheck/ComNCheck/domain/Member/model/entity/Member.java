@@ -30,8 +30,15 @@ public class Member {
     @Column(name = "studnet_number", nullable = false)
     private int studentNumber;
 
-    @Column(name = "memer_role", nullable = false)
+    @Column(name = "member_role", nullable = false)
     private Role role;
 
+    /*
+    setter code
+    어노테이션으로 안하고 필요한 경우만 setter 설정
+     */
+    public void setStudentNumber(int studentNumber) {
+        this.studentNumber = studentNumber;
+    }
 }
 
