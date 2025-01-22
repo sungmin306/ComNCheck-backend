@@ -34,8 +34,5 @@ public class CustomOAuth2Member implements OAuth2User {
         return memberDTO.getName();
     }
 
-//    public String getUsername() {
-//        return memberDTO.getName();
-//    }
 
 }

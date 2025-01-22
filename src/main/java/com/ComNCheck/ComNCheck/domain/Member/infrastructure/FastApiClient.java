@@ -3,7 +3,6 @@ package com.ComNCheck.ComNCheck.domain.Member.infrastructure;
 import com.ComNCheck.ComNCheck.domain.Member.exception.FastApiException;
 import com.ComNCheck.ComNCheck.domain.Member.model.dto.response.FastApiResponseDTO;
 import java.io.IOException;
-import java.net.http.HttpHeaders;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -15,7 +14,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.http.HttpHeaders;
 @Component
 @RequiredArgsConstructor
 public class FastApiClient {
@@ -23,9 +22,7 @@ public class FastApiClient {
 
     private static final String FAST_API_URL= "http://localhost:8000/api/v1/compare-and-ocr/";
 
-
     public FastApiResponseDTO sendImage(MultipartFile imageFile) {
-        // Prepare multipart request
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         try {
             ByteArrayResource resource = new ByteArrayResource(imageFile.getBytes()) {
@@ -41,7 +38,6 @@ public class FastApiClient {
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-            // Send request to FastAPI
             ResponseEntity<FastApiResponseDTO> response = restTemplate.postForEntity(
                     FAST_API_URL,
                     requestEntity,
@@ -58,7 +54,4 @@ public class FastApiClient {
             throw new FastApiException("이미지 처리 중 오류 발생: " + e.getMessage(), e);
         }
     }
-
-
-
 }
