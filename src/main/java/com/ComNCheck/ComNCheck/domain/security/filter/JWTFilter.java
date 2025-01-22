@@ -28,6 +28,7 @@ public class JWTFilter extends OncePerRequestFilter {
     private static final String[] EXCLUDED_PATHS = {
             "/swagger-ui.html",
             "/swagger-ui/**",
+            "/V3/api-docs",
             "/v3/api-docs/**",
             "/swagger-resources/**",
             "/webjars/**",
