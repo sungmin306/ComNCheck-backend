@@ -5,6 +5,7 @@ import com.ComNCheck.ComNCheck.domain.security.handler.CustomSuccessHandler;
 import com.ComNCheck.ComNCheck.domain.Member.service.CustomOAuthMemberService;
 import com.ComNCheck.ComNCheck.domain.security.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -32,13 +33,12 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration configuration = new CorsConfiguration();
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                        configuration.setAllowedMethods(Collections.singletonList("*"));
+                        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+                        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                         configuration.setAllowCredentials(true);
-                        configuration.setAllowedHeaders(Collections.singletonList("*"));
+                        configuration.setAllowedHeaders(Arrays.asList("*"));
                         configuration.setMaxAge(3600L);
-                        configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
-                        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+                        configuration.setExposedHeaders(Arrays.asList("Set-Cookie", "Authorization")); // 한 번에 설정
                         return configuration;
                     }
                 }))
@@ -47,8 +47,16 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login/**", "/oauth2/**").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll() // H2 Console 접근 허용 -> 디비 변경 시 제거
+                        .requestMatchers(
+                                "/login/**",
+                                "/oauth2/**",
+                                "/h2-console/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -58,15 +66,15 @@ public class SecurityConfig {
                         .redirectionEndpoint(redirection -> redirection
                                 .baseUri("/login/oauth2/code/*")
                         )
-//                        .userInfoEndpoint(userInfo -> userInfo
-//                                .userService(customOAuth2MemberService)
-//                        )
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2MemberService))
-                                .successHandler(customSuccessHandler)
+                        .successHandler(customSuccessHandler)
                 );
-        //H2 Console 관련 헤더 설정 -> 디비 변경 시 제거
+
+        // H2 Console 관련 헤더 설정 -> 디비 변경 시 제거
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
+
+        // JWT 필터 추가
         http.addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
