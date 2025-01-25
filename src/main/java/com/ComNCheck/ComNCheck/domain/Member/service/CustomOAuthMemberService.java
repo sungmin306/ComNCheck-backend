@@ -56,6 +56,7 @@ public class CustomOAuthMemberService extends DefaultOAuth2UserService {
             });
 
             MemberDTO memberDTO = new MemberDTO();
+            memberDTO.setId(member.getId());
             memberDTO.setEmail(member.getEmail());
             memberDTO.setName(member.getName());
             memberDTO.setMajor(member.getMajor());
