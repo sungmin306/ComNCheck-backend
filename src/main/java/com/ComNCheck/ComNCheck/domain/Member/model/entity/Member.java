@@ -31,6 +31,7 @@ public class Member {
     private int studentNumber;
 
     @Column(name = "member_role", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     /*

@@ -24,7 +24,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-
 public class Question {
 
     @Id
@@ -51,9 +50,9 @@ public class Question {
     /*
     연관관계 편의 메서드
      */
-    public void addAnswer(Answer answer) {
+    public void setAnswer(Answer answer) {
         this.answer = answer;
-        answer.setQuestrion(this);
+        answer.setQuestion(this);
     }
 
     public void updateQuestion(String title, String contest) {

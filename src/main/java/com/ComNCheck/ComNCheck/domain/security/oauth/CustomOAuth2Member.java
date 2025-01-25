@@ -12,6 +12,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 public class CustomOAuth2Member implements OAuth2User {
     private final MemberDTO memberDTO;
 
+    public MemberDTO getMemberDTO() {
+        return memberDTO;
+    }
+
     @Override
     public Map<String, Object> getAttributes() {
         return null;
