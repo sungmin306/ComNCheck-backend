@@ -29,7 +29,7 @@ public class AnswerService {
         Member writer = memberRepository.findById(requestDTO.getWriterId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
 
-        Question question = questionRepository.findById(requestDTO.getWriterId())
+        Question question = questionRepository.findById(requestDTO.getQuestionId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 질문이 존재하지 않습니다."));
 
         Answer answer = answerRepository.findByQuestionId(question.getId()).orElse(null);
