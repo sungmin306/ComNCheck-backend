@@ -75,7 +75,6 @@ public class SecurityConfig {
         // H2 Console 관련 헤더 설정 -> 디비 변경 시 제거
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
-        // JWT 필터 추가
         http.addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
