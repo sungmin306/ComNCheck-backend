@@ -50,11 +50,11 @@ public class QuestionService {
     }
 
     @Transactional
-    public QuestionResponseDTO updateQuestion(Long questionId, QuestionRequestDTO requestDTO, Long memberId) {
+    public QuestionResponseDTO updateQuestion(Long questionId, QuestionRequestDTO requestDTO, Long writerId) {
         Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> new IllegalArgumentException("질문이 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 질문이 존재하지 않습니다."));
 
-        if (!question.getWriter().getId().equals(memberId)) {
+        if (!question.getWriter().getId().equals(writerId)) {
             throw new UnauthorizedException("작성자가 아닙니다.");
         }
 
@@ -63,14 +63,13 @@ public class QuestionService {
     }
 
     @Transactional
-    public void deleteQuestion(Long questionId, Long requestMemberId) {
+    public void deleteQuestion(Long questionId, Long writerId) {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 질문이 존재하지 않습니다."));
 
-        if(question.getId() != requestMemberId) {
+        if(question.getWriter().getId().equals(writerId)) {
             throw new UnauthorizedException("작성자가 아닙니다.");
         }
-
         questionRepository.delete(question);
     }
 

@@ -20,12 +20,10 @@ public class AnswerController {
             @RequestBody AnswerRequestDTO requestDTO,
             Authentication authentication
     ) {
-        // 현재 로그인된 사용자 ID를 사용해 writerId 설정(학생회 역할 검증 등은 Service에서 처리)
         CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
         Long writerId = principal.getMemberDTO().getId();
         requestDTO.setWriterId(writerId);
 
-        // 실제로는 Role 확인(학생회인지) 로직이 필요할 수 있음
         AnswerResponseDTO responseDTO = answerService.createOrUpdateAnswer(requestDTO);
         return ResponseEntity.ok(responseDTO);
     }
