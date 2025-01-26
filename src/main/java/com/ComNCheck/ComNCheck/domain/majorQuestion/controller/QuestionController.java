@@ -55,7 +55,7 @@ public class QuestionController {
          CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
          Long writerId = principal.getMemberDTO().getId();
          List<QuestionResponseDTO> myQuestions= questionService.getMyQuestions(writerId);
-         return ResponseEntity.ok(myQuestion
+         return ResponseEntity.ok(myQuestions);
     }
 
     @PutMapping("/{id}")

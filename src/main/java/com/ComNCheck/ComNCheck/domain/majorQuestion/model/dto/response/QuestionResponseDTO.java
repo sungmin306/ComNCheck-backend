@@ -1,5 +1,6 @@
 package com.ComNCheck.ComNCheck.domain.majorQuestion.model.dto.response;
 
+import com.ComNCheck.ComNCheck.domain.majorQuestion.model.entity.Question;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,9 +16,7 @@ public class QuestionResponseDTO {
     private LocalDateTime updatedAt;
     private AnswerResponseDTO answer;
 
-    public static QuestionResponseDTO of(
-        com.ComNCheck.ComNCheck.domain.majorQuestion.model.entity.Question question
-    ) {
+    public static QuestionResponseDTO of(Question question) {
         return QuestionResponseDTO.builder()
                 .id(question.getId())
                 .title(question.getTitle())
