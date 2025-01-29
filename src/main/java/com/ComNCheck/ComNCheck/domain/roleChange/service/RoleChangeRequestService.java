@@ -1,14 +1,16 @@
-package com.ComNCheck.ComNCheck.domain.Member.service;
+package com.ComNCheck.ComNCheck.domain.roleChange.service;
 
 
-import com.ComNCheck.ComNCheck.domain.Member.model.dto.request.RoleChangeRequestCreateDTO;
-import com.ComNCheck.ComNCheck.domain.Member.model.dto.response.RoleChangeRequestResponseDTO;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.request.RoleChangeRequestCreateDTO;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.ApprovedRoleListDTO;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.RoleChangeListDTO;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.RoleChangeRequestResponseDTO;
 import com.ComNCheck.ComNCheck.domain.Member.model.entity.Member;
-import com.ComNCheck.ComNCheck.domain.Member.model.entity.RequestStatus;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.entity.RequestStatus;
 import com.ComNCheck.ComNCheck.domain.Member.model.entity.Role;
-import com.ComNCheck.ComNCheck.domain.Member.model.entity.RoleChangeRequest;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.entity.RoleChangeRequest;
 import com.ComNCheck.ComNCheck.domain.Member.repository.MemberRepository;
-import com.ComNCheck.ComNCheck.domain.Member.repository.RoleChangeRequestRepository;
+import com.ComNCheck.ComNCheck.domain.roleChange.repository.RoleChangeRequestRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -29,17 +31,18 @@ public class RoleChangeRequestService {
 
         RoleChangeRequest roleChangeRequest = RoleChangeRequest.builder()
                 .member(member)
-                .requestedRole(requestDTO.getRequestRole())
+                .requestPosition(requestDTO.getRequestPosition())
+                .requestRole(requestDTO.getRequestRole())
                 .build();
 
-        RoleChangeRequest saved = roleChangeRequestRepository.save(roleChangeRequest);
-        return RoleChangeRequestResponseDTO.of(saved);
+        RoleChangeRequest saveRoleChangeRequest = roleChangeRequestRepository.save(roleChangeRequest);
+        return RoleChangeRequestResponseDTO.of(saveRoleChangeRequest);
     }
 
-    public List<RoleChangeRequestResponseDTO> getAllRequests() {
+    public List<RoleChangeListDTO> getAllRequests() {
         List<RoleChangeRequest> requests = roleChangeRequestRepository.findAll();
         return requests.stream()
-                .map(RoleChangeRequestResponseDTO::of)
+                .map(RoleChangeListDTO::of)
                 .collect(Collectors.toList());
     }
 
@@ -57,28 +60,23 @@ public class RoleChangeRequestService {
         request.approve();
 
         Member member = request.getMember();
-        member.updateRole(request.getRequestedRole());
+        member.updateRole(request.getRequestRole());
+        member.updatePosition(request.getRequestPosition());
+
     }
 
-    @Transactional
-    public void rejectRequest(Long requestId) {
-        RoleChangeRequest request = roleChangeRequestRepository.findById(requestId)
-                .orElseThrow(() -> new IllegalArgumentException("등록된 학생회 신청이 없습니다."));
-        request.reject();
-    }
-
-    public List<RoleChangeRequestResponseDTO> getApproveRequests() {
+    public List<ApprovedRoleListDTO> getApproveRequests() {
         List<RoleChangeRequest> requests = roleChangeRequestRepository.findAll().stream()
                 .filter(req -> req.getStatus() == RequestStatus.APPROVED)
                 .collect(Collectors.toList());
 
         return requests.stream()
-                .map(RoleChangeRequestResponseDTO::of)
+                .map(ApprovedRoleListDTO::of)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public void changeMemberRole(Long requestId, Role newRole) {
+    public void changeMemberRole(Long requestId, RoleChangeRequestCreateDTO requestDTO) {
         RoleChangeRequest request = roleChangeRequestRepository.findById(requestId)
                 .orElseThrow(() -> new IllegalArgumentException("요청이 없습니다."));
 
@@ -87,7 +85,8 @@ public class RoleChangeRequestService {
         }
 
         Member member = request.getMember();
-        member.updateRole(newRole);
+        member.updateRole(requestDTO.getRequestRole());
+        member.updatePosition(requestDTO.getRequestPosition());
     }
 
     @Transactional

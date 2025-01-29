@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
 @Entity
 public class Member {
 
@@ -55,6 +54,9 @@ public class Member {
      */
     public void setStudentNumber(int studentNumber) {
         this.studentNumber = studentNumber;
+    }
+    public void updatePosition(String requestPosition) {
+        this.position = requestPosition;
     }
     public void updateRole(Role newRole) {
         this.role = newRole;
