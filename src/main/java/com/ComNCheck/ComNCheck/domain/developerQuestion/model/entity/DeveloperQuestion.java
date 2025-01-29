@@ -33,6 +33,8 @@ public class DeveloperQuestion {
     private Member writer;
 
 
-    public void updateDeveloperQuestion(String content )
+    public void updateDeveloperQuestion(String content) {
+        this.content = content;
+    }
 
 }

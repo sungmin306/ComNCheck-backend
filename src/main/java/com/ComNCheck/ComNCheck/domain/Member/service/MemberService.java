@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Service
 public class MemberService {
     private final MemberRepository memberRepository;
     private final FastApiClient fastApiClient;
@@ -36,6 +36,7 @@ public class MemberService {
             throw new ValidationException("이름 또는 전공이 일치하지 않습니다.");
         }
     }
+
 
     private void validateFastApiResponse(ExtractedText extractedText) {
         if (extractedText == null ||
