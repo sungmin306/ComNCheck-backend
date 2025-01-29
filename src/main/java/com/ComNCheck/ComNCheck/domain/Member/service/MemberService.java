@@ -2,10 +2,16 @@ package com.ComNCheck.ComNCheck.domain.Member.service;
 
 import com.ComNCheck.ComNCheck.domain.Member.exception.ValidationException;
 import com.ComNCheck.ComNCheck.domain.Member.infrastructure.FastApiClient;
+import com.ComNCheck.ComNCheck.domain.Member.model.dto.response.CouncilDTO;
 import com.ComNCheck.ComNCheck.domain.Member.model.dto.response.FastApiResponseDTO;
 import com.ComNCheck.ComNCheck.domain.Member.model.dto.response.FastApiResponseDTO.ExtractedText;
+import com.ComNCheck.ComNCheck.domain.Member.model.dto.response.PresidentCouncilResponseDTO;
+import com.ComNCheck.ComNCheck.domain.Member.model.dto.response.PresidentDTO;
 import com.ComNCheck.ComNCheck.domain.Member.model.entity.Member;
+import com.ComNCheck.ComNCheck.domain.Member.model.entity.Role;
 import com.ComNCheck.ComNCheck.domain.Member.repository.MemberRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +41,27 @@ public class MemberService {
         } else {
             throw new ValidationException("이름 또는 전공이 일치하지 않습니다.");
         }
+    }
+
+    public PresidentCouncilResponseDTO getPresidentAndCouncils() {
+        Member presidentEntity = memberRepository.findByRole(Role.ROLE_MAJOR_PRESIDENT)
+                .orElse(null);
+
+        List<Member> councilEntities = memberRepository.findAllByRole(Role.ROLE_STUDENT_COUNCIL);
+
+        PresidentDTO presidentDTO = null;
+        if (presidentEntity != null) {
+            presidentDTO = PresidentDTO.of(presidentEntity);
+        }
+
+        List<CouncilDTO> councilDTOList = councilEntities.stream()
+                .map(CouncilDTO::of)
+                .collect(Collectors.toList());
+
+        return PresidentCouncilResponseDTO.builder()
+                .president(presidentDTO)
+                .councilList(councilDTOList)
+                .build();
     }
 
 
