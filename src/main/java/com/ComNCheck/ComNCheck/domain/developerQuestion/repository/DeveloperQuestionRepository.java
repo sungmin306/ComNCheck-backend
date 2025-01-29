@@ -4,9 +4,11 @@ import com.ComNCheck.ComNCheck.domain.developerQuestion.model.entity.DeveloperQu
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+
+
 public interface DeveloperQuestionRepository extends JpaRepository<DeveloperQuestion, Long> {
 
-    Optional<DeveloperQuestion> findByDeveloperQuestionId(Long id);
+    //Optional<DeveloperQuestion> findByDeveloperQuestionId(Long id);
 
 
 }

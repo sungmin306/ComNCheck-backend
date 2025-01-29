@@ -1,7 +1,7 @@
-package com.ComNCheck.ComNCheck.domain.Member.model.dto.response;
+package com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response;
 
-import com.ComNCheck.ComNCheck.domain.Member.model.entity.RequestStatus;
-import com.ComNCheck.ComNCheck.domain.Member.model.entity.RoleChangeRequest;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.entity.RequestStatus;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.entity.RoleChangeRequest;
 import com.ComNCheck.ComNCheck.domain.Member.model.entity.Role;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,13 +21,12 @@ public class RoleChangeRequestResponseDTO {
 
     public static RoleChangeRequestResponseDTO of(RoleChangeRequest entity) {
         return RoleChangeRequestResponseDTO.builder()
-                .requestId(entity.getId())
+                .requestId(entity.getRequestId())
                 .memberId(entity.getMember().getId())
-                .name(entity.getName())
-                .major(entity.getMajor())
-                .studentNumber(entity.getStudentNumber())
-                .position(entity.getPosition())
-                .requestedRole(entity.getRequestedRole())
+                .name(entity.getMember().getName())
+                .major(entity.getMember().getMajor())
+                .studentNumber(entity.getMember().getStudentNumber())
+                .position(entity.getRequestPosition())
                 .status(entity.getStatus())
                 .build();
     }

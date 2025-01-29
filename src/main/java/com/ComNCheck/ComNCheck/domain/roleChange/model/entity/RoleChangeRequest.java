@@ -1,6 +1,10 @@
-package com.ComNCheck.ComNCheck.domain.Member.model.entity;
+package com.ComNCheck.ComNCheck.domain.roleChange.model.entity;
 
 
+import com.ComNCheck.ComNCheck.domain.Member.model.entity.Member;
+import com.ComNCheck.ComNCheck.domain.Member.model.entity.Role;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.entity.RequestStatus;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,7 +27,8 @@ public class RoleChangeRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "request_id")
+    private Long requestId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
@@ -31,31 +36,23 @@ public class RoleChangeRequest {
     @Enumerated(EnumType.STRING)
     private RequestStatus status;
 
-    @Enumerated(EnumType.STRING)
-    private Role requestedRole;
+    @Column(name = "request_position", nullable = false)
+    private String requestPosition;
 
-    private String name;
-    private String major;
-    private int studentNumber;
-    private String position;
+    @Column(name = "request_role", nullable = false)
+    private Role requestRole;
 
     @Builder
-    public RoleChangeRequest(Member member, Role requestedRole) {
+    public RoleChangeRequest(Member member, String requestPosition, Role requestRole) {
         this.member = member;
-        this.requestedRole = requestedRole;
         this.status = RequestStatus.PENDING;
-        this.name = member.getName();
-        this.major = member.getMajor();
-        this.studentNumber = member.getStudentNumber();
-        this.position = member.getPosition();
+        this.requestPosition = requestPosition;
+        this.requestRole = requestRole;
     }
 
     public void approve() {
         this.status = RequestStatus.APPROVED;
     }
 
-    public void reject() {
-        this.status = RequestStatus.REJECTED;
-    }
 
 }
