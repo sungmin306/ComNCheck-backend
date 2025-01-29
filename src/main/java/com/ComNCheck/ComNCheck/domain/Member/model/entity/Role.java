@@ -24,7 +24,7 @@ public enum Role {
                 return role;
             }
         }
-        return null;
+        throw new IllegalArgumentException("존재하지 않는 권한 타입입니다.");
     }
     @JsonValue
     public String serializeRole(){
