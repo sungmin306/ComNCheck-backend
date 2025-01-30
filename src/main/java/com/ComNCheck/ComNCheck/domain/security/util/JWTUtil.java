@@ -1,6 +1,6 @@
 package com.ComNCheck.ComNCheck.domain.security.util;
 
-import com.ComNCheck.ComNCheck.domain.Member.model.entity.Role;
+import com.ComNCheck.ComNCheck.domain.member.model.entity.Role;
 import io.jsonwebtoken.Jwts;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;

@@ -2,11 +2,10 @@ package com.ComNCheck.ComNCheck.domain.security.config;
 
 import com.ComNCheck.ComNCheck.domain.security.filter.JWTFilter;
 import com.ComNCheck.ComNCheck.domain.security.handler.CustomSuccessHandler;
-import com.ComNCheck.ComNCheck.domain.Member.service.CustomOAuthMemberService;
+import com.ComNCheck.ComNCheck.domain.member.service.CustomOAuthMemberService;
 import com.ComNCheck.ComNCheck.domain.security.util.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
-import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

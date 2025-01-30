@@ -1,6 +1,6 @@
 package com.ComNCheck.ComNCheck.domain.security.oauth;
 
-import com.ComNCheck.ComNCheck.domain.Member.model.dto.response.MemberDTO;
+import com.ComNCheck.ComNCheck.domain.member.model.dto.response.MemberDTO;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;

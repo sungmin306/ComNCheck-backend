@@ -1,7 +1,7 @@
 package com.ComNCheck.ComNCheck.domain.security.filter;
 
-import com.ComNCheck.ComNCheck.domain.Member.model.dto.response.MemberDTO;
-import com.ComNCheck.ComNCheck.domain.Member.model.entity.Role;
+import com.ComNCheck.ComNCheck.domain.member.model.dto.response.MemberDTO;
+import com.ComNCheck.ComNCheck.domain.member.model.entity.Role;
 import com.ComNCheck.ComNCheck.domain.security.exception.TokenExpiredException;
 import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
 import com.ComNCheck.ComNCheck.domain.security.util.JWTUtil;

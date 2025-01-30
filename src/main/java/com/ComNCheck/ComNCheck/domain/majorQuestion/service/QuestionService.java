@@ -1,8 +1,8 @@
 package com.ComNCheck.ComNCheck.domain.majorQuestion.service;
 
 
-import com.ComNCheck.ComNCheck.domain.Member.model.entity.Member;
-import com.ComNCheck.ComNCheck.domain.Member.repository.MemberRepository;
+import com.ComNCheck.ComNCheck.domain.member.model.entity.Member;
+import com.ComNCheck.ComNCheck.domain.member.repository.MemberRepository;
 import com.ComNCheck.ComNCheck.domain.global.exception.UnauthorizedException;
 import com.ComNCheck.ComNCheck.domain.majorQuestion.model.dto.request.QuestionRequestDTO;
 import com.ComNCheck.ComNCheck.domain.majorQuestion.model.dto.response.QuestionResponseDTO;

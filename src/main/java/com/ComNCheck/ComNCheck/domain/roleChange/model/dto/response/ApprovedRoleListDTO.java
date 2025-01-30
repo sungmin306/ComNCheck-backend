@@ -1,7 +1,6 @@
 package com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response;
 
-import com.ComNCheck.ComNCheck.domain.Member.model.entity.Role;
-import com.ComNCheck.ComNCheck.domain.roleChange.model.entity.RoleChangeRequest;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.entity.RoleChange;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,11 +12,11 @@ public class ApprovedRoleListDTO {
     private String name;
     private String requestPosition;
 
-    public static ApprovedRoleListDTO of(RoleChangeRequest roleChangeRequest) {
+    public static ApprovedRoleListDTO of(RoleChange roleChange) {
         return ApprovedRoleListDTO.builder()
-                .requestId(roleChangeRequest.getRequestId())
-                .name(roleChangeRequest.getMember().getName())
-                .requestPosition(roleChangeRequest.getRequestPosition())
+                .requestId(roleChange.getRequestId())
+                .name(roleChange.getMember().getName())
+                .requestPosition(roleChange.getRequestPosition())
                 .build();
     }
 }

@@ -1,9 +1,9 @@
 package com.ComNCheck.ComNCheck.domain.developerQuestion.service;
 
 
-import com.ComNCheck.ComNCheck.domain.Member.exception.MemberNotFoundException;
-import com.ComNCheck.ComNCheck.domain.Member.model.entity.Member;
-import com.ComNCheck.ComNCheck.domain.Member.repository.MemberRepository;
+import com.ComNCheck.ComNCheck.domain.member.exception.MemberNotFoundException;
+import com.ComNCheck.ComNCheck.domain.member.model.entity.Member;
+import com.ComNCheck.ComNCheck.domain.member.repository.MemberRepository;
 import com.ComNCheck.ComNCheck.domain.developerQuestion.model.dto.request.DeveloperQuestionRequestDTO;
 import com.ComNCheck.ComNCheck.domain.developerQuestion.model.dto.response.DeveloperQuestionResponseDTO;
 import com.ComNCheck.ComNCheck.domain.developerQuestion.model.entity.DeveloperQuestion;

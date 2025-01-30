@@ -1,8 +1,8 @@
 package com.ComNCheck.ComNCheck.domain.global.exception;
 
-import com.ComNCheck.ComNCheck.domain.Member.exception.FastApiException;
-import com.ComNCheck.ComNCheck.domain.Member.exception.MemberNotFoundException;
-import com.ComNCheck.ComNCheck.domain.Member.exception.ValidationException;
+import com.ComNCheck.ComNCheck.domain.member.exception.FastApiException;
+import com.ComNCheck.ComNCheck.domain.member.exception.MemberNotFoundException;
+import com.ComNCheck.ComNCheck.domain.member.exception.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

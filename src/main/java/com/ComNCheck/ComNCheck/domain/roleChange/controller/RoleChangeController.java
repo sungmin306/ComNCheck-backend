@@ -1,9 +1,9 @@
 package com.ComNCheck.ComNCheck.domain.roleChange.controller;
 
-import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.request.RoleChangeRequestCreateDTO;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.request.RoleChangeRequestDTO;
 import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.ApprovedRoleListDTO;
 import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.RoleChangeListDTO;
-import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.RoleChangeRequestResponseDTO;
+import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.RoleChangeResponseDTO;
 import com.ComNCheck.ComNCheck.domain.roleChange.service.RoleChangeRequestService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +27,9 @@ public class RoleChangeController {
     private final RoleChangeRequestService roleChangeRequestService;
 
     @PostMapping
-    public ResponseEntity<RoleChangeRequestResponseDTO> createRoleChangeRequest(
-            @RequestBody RoleChangeRequestCreateDTO requestDTO) {
-        RoleChangeRequestResponseDTO createDTO = roleChangeRequestService.createRoleChangeRequest(requestDTO);
+    public ResponseEntity<RoleChangeResponseDTO> createRoleChangeRequest(
+            @RequestBody RoleChangeRequestDTO requestDTO) {
+        RoleChangeResponseDTO createDTO = roleChangeRequestService.createRoleChangeRequest(requestDTO);
         URI location = URI.create("api/role-change-requests/" + createDTO.getRequestId());
         return ResponseEntity.created(location).body(createDTO);
     }
@@ -41,8 +41,8 @@ public class RoleChangeController {
     }
 
     @GetMapping("/{requestId}")
-    public ResponseEntity<RoleChangeRequestResponseDTO> getRequestDetail(@PathVariable Long requestId) {
-        RoleChangeRequestResponseDTO responseDTO = roleChangeRequestService.getRequestDetail(requestId);
+    public ResponseEntity<RoleChangeResponseDTO> getRequestDetail(@PathVariable Long requestId) {
+        RoleChangeResponseDTO responseDTO = roleChangeRequestService.getRequestDetail(requestId);
         return ResponseEntity.ok(responseDTO);
     }
 
@@ -60,7 +60,7 @@ public class RoleChangeController {
 
     @PutMapping("/{requestId}/change-role")
     public ResponseEntity<String> changeMemberRole(
-            @PathVariable Long requestId, @RequestBody RoleChangeRequestCreateDTO requestDTO
+            @PathVariable Long requestId, @RequestBody RoleChangeRequestDTO requestDTO
     ) {
         roleChangeRequestService.changeMemberRole(requestId, requestDTO);
         return ResponseEntity.ok("등급 재변경 완료");
