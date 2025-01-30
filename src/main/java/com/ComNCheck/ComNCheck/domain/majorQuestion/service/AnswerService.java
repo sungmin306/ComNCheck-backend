@@ -1,14 +1,13 @@
 package com.ComNCheck.ComNCheck.domain.majorQuestion.service;
 
-import com.ComNCheck.ComNCheck.domain.Member.model.entity.Member;
-import com.ComNCheck.ComNCheck.domain.Member.repository.MemberRepository;
+import com.ComNCheck.ComNCheck.domain.member.model.entity.Member;
+import com.ComNCheck.ComNCheck.domain.member.repository.MemberRepository;
 import com.ComNCheck.ComNCheck.domain.majorQuestion.model.dto.request.AnswerRequestDTO;
 import com.ComNCheck.ComNCheck.domain.majorQuestion.model.dto.response.AnswerResponseDTO;
 import com.ComNCheck.ComNCheck.domain.majorQuestion.model.entity.Answer;
 import com.ComNCheck.ComNCheck.domain.majorQuestion.model.entity.Question;
 import com.ComNCheck.ComNCheck.domain.majorQuestion.repository.AnswerRepository;
 import com.ComNCheck.ComNCheck.domain.majorQuestion.repository.QuestionRepository;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

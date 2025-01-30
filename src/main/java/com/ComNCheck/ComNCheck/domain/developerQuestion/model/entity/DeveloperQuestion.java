@@ -1,7 +1,7 @@
 package com.ComNCheck.ComNCheck.domain.developerQuestion.model.entity;
 
 
-import com.ComNCheck.ComNCheck.domain.Member.model.entity.Member;
+import com.ComNCheck.ComNCheck.domain.member.model.entity.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
