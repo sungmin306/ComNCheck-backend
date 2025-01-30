@@ -39,3 +39,6 @@ out/
 #application.yaml
 .env
 
+hs_err_pid44980.jfr
+hs_err_pid44980.log
+

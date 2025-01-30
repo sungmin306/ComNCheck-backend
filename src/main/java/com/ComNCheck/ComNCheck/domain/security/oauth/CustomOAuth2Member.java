@@ -1,6 +1,6 @@
 package com.ComNCheck.ComNCheck.domain.security.oauth;
 
-import com.ComNCheck.ComNCheck.domain.Member.model.dto.response.MemberDTO;
+import com.ComNCheck.ComNCheck.domain.member.model.dto.response.MemberDTO;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -11,6 +11,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @RequiredArgsConstructor
 public class CustomOAuth2Member implements OAuth2User {
     private final MemberDTO memberDTO;
+
+    public MemberDTO getMemberDTO() {
+        return memberDTO;
+    }
 
     @Override
     public Map<String, Object> getAttributes() {
@@ -34,8 +38,5 @@ public class CustomOAuth2Member implements OAuth2User {
         return memberDTO.getName();
     }
 
-//    public String getUsername() {
-//        return memberDTO.getName();
-//    }
 
 }
