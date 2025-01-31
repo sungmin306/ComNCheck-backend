@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FastApiResponseDTO {
+public class FastApiStudentCardDTO {
     private String message;
     private String similarity;
     @JsonProperty("extracted_text")

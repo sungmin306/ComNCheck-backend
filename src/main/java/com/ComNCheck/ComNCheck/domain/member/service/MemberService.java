@@ -1,10 +1,11 @@
 package com.ComNCheck.ComNCheck.domain.member.service;
 
 import com.ComNCheck.ComNCheck.domain.member.exception.ValidationException;
-import com.ComNCheck.ComNCheck.domain.member.infrastructure.FastApiClient;
+import com.ComNCheck.ComNCheck.domain.global.infrastructure.FastApiClient;
 import com.ComNCheck.ComNCheck.domain.member.model.dto.response.CouncilDTO;
-import com.ComNCheck.ComNCheck.domain.member.model.dto.response.FastApiResponseDTO;
-import com.ComNCheck.ComNCheck.domain.member.model.dto.response.FastApiResponseDTO.ExtractedText;
+import com.ComNCheck.ComNCheck.domain.member.model.dto.response.FastApiStudentCardDTO;
+import com.ComNCheck.ComNCheck.domain.member.model.dto.response.FastApiStudentCardDTO.ExtractedText;
+import com.ComNCheck.ComNCheck.domain.member.model.dto.response.MemberDTO;
 import com.ComNCheck.ComNCheck.domain.member.model.dto.response.PresidentCouncilResponseDTO;
 import com.ComNCheck.ComNCheck.domain.member.model.dto.response.PresidentDTO;
 import com.ComNCheck.ComNCheck.domain.member.model.entity.Member;
@@ -23,24 +24,26 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final FastApiClient fastApiClient;
+
     @Transactional
-    public void registerStudentNumber(Long id, MultipartFile studentCardImage) {
-        Member member = memberRepository.findById(id)
+    public MemberDTO registerStudentNumber(Long id, MultipartFile studentCardImage) {
+        Member member = memberRepository.findByMemberId(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 학생입니다."));
-        FastApiResponseDTO fastApiResponse = fastApiClient.sendImage(studentCardImage);
-        FastApiResponseDTO.ExtractedText extractedText = fastApiResponse.getExtractedText();
+        FastApiStudentCardDTO fastApiResponse = fastApiClient.sendImage(studentCardImage);
+        FastApiStudentCardDTO.ExtractedText extractedText = fastApiResponse.getExtractedText();
 
         validateFastApiResponse(extractedText);
-        int studentNumber= Integer.parseInt(extractedText.getStudentId());
+        int studentNumber = Integer.parseInt(extractedText.getStudentId());
         boolean isNameMatch = member.getName().equals(extractedText.getName());
         boolean isMajorMatch = member.getMajor().equals(extractedText.getMajor());
 
-        if (isNameMatch && isMajorMatch) {
-            member.setStudentNumber(studentNumber);
-            memberRepository.save(member);
-        } else {
+        if (!isNameMatch || !isMajorMatch) {
             throw new ValidationException("이름 또는 전공이 일치하지 않습니다.");
         }
+        member.setStudentNumber(studentNumber);
+        Member savedMember = memberRepository.save(member);
+
+        return MemberDTO.of(savedMember);
     }
 
     public PresidentCouncilResponseDTO getPresidentAndCouncils() {
@@ -74,4 +77,10 @@ public class MemberService {
         }
     }
 
+    public MemberDTO getMemberInformation(Long memberId) {
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 학생입니다."));
+        return MemberDTO.of(member);
+
+    }
 }
