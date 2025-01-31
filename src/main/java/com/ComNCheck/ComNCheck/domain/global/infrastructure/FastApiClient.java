@@ -1,7 +1,7 @@
-package com.ComNCheck.ComNCheck.domain.member.infrastructure;
+package com.ComNCheck.ComNCheck.domain.global.infrastructure;
 
-import com.ComNCheck.ComNCheck.domain.member.exception.FastApiException;
-import com.ComNCheck.ComNCheck.domain.member.model.dto.response.FastApiResponseDTO;
+import com.ComNCheck.ComNCheck.domain.global.exception.FastApiException;
+import com.ComNCheck.ComNCheck.domain.member.model.dto.response.FastApiStudentCardDTO;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
@@ -20,9 +20,9 @@ import org.springframework.http.HttpHeaders;
 public class FastApiClient {
     private final RestTemplate restTemplate;
 
-    private static final String FAST_API_URL= "http://localhost:8000/api/v1/compare-and-ocr/";
+    private static final String FAST_API_URL_OCR= "http://localhost:8000/api/vi/compare-and-ocr";
 
-    public FastApiResponseDTO sendImage(MultipartFile imageFile) {
+    public FastApiStudentCardDTO sendImage(MultipartFile imageFile) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         try {
             ByteArrayResource resource = new ByteArrayResource(imageFile.getBytes()) {
@@ -38,10 +38,10 @@ public class FastApiClient {
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-            ResponseEntity<FastApiResponseDTO> response = restTemplate.postForEntity(
-                    FAST_API_URL,
+            ResponseEntity<FastApiStudentCardDTO> response = restTemplate.postForEntity(
+                    FAST_API_URL_OCR,
                     requestEntity,
-                    FastApiResponseDTO.class
+                    FastApiStudentCardDTO.class
             );
 
             if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {

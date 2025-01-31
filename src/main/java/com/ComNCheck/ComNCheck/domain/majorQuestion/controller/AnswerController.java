@@ -21,7 +21,7 @@ public class AnswerController {
             Authentication authentication
     ) {
         CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
-        Long writerId = principal.getMemberDTO().getId();
+        Long writerId = principal.getMemberDTO().getMemberId();
         requestDTO.setWriterId(writerId);
 
         AnswerResponseDTO responseDTO = answerService.createOrUpdateAnswer(requestDTO);

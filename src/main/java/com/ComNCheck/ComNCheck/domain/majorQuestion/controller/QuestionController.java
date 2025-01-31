@@ -53,7 +53,7 @@ public class QuestionController {
     @GetMapping("/my")
     public ResponseEntity<List<QuestionResponseDTO>> getMyQuestions(Authentication authentication) {
          CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
-         Long writerId = principal.getMemberDTO().getId();
+         Long writerId = principal.getMemberDTO().getMemberId();
          List<QuestionResponseDTO> myQuestions= questionService.getMyQuestions(writerId);
          return ResponseEntity.ok(myQuestions);
     }
@@ -63,7 +63,7 @@ public class QuestionController {
                                                               @RequestBody QuestionRequestDTO requestDTO,
                                                               Authentication authentication) {
         CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
-        Long memberId = principal.getMemberDTO().getId();
+        Long memberId = principal.getMemberDTO().getMemberId();
         QuestionResponseDTO updateDTO = questionService.updateQuestion(id, requestDTO, memberId);
         return ResponseEntity.ok(updateDTO);
     }
@@ -71,7 +71,7 @@ public class QuestionController {
     @DeleteMapping
     public ResponseEntity<Void> deleteQuestion(@PathVariable Long id, Authentication authentication) {
         CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
-        Long memberId = principal.getMemberDTO().getId();
+        Long memberId = principal.getMemberDTO().getMemberId();
         questionService.deleteQuestion(id, memberId);
         return ResponseEntity.noContent().build();
     }

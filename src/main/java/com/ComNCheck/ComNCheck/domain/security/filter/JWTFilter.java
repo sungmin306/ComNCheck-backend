@@ -35,6 +35,7 @@ public class JWTFilter extends OncePerRequestFilter {
             "/login/**",
             "/oauth2/**",
             "/h2-console/**"
+            //"api/v1/**"
     };
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
@@ -79,7 +80,7 @@ public class JWTFilter extends OncePerRequestFilter {
                 Role role = jwtUtil.getRole(token);
 
                 MemberDTO memberDTO = new MemberDTO();
-                memberDTO.setId(id);
+                memberDTO.setMemberId(id);
                 memberDTO.setName(username);
                 memberDTO.setRole(role);
 
