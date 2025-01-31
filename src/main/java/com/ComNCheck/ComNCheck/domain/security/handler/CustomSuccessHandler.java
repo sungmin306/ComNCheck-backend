@@ -26,7 +26,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                                         Authentication authentication) throws IOException, ServletException {
         CustomOAuth2Member customMemberDetails = (CustomOAuth2Member) authentication.getPrincipal();
 
-        Long userId = customMemberDetails.getMemberDTO().getId();
+        Long userId = customMemberDetails.getMemberDTO().getMemberId();
         String username = customMemberDetails.getName();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
@@ -36,7 +36,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String token = jwtUtil.createJwt(userId, username, role, 60*60*60L);
 
         response.addCookie(createCookie("Authorization", token));
-        response.sendRedirect("http://localhost:3000/");
+        response.sendRedirect("http://localhost:3000/signup?id=" + userId);
+
     }
 
     private Cookie createCookie(String key, String value) {

@@ -56,9 +56,11 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**",
                                 "/webjars/**"
+                                //"/api/v1/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
+
                 .oauth2Login(oauth2 -> oauth2
                         .authorizationEndpoint(authorization -> authorization
                                 .baseUri("/oauth2/authorize")
@@ -70,7 +72,7 @@ public class SecurityConfig {
                                 .userService(customOAuth2MemberService))
                         .successHandler(customSuccessHandler)
                 );
-
+        System.out.println("시큐리티config");
         // H2 Console 관련 헤더 설정 -> 디비 변경 시 제거
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
 

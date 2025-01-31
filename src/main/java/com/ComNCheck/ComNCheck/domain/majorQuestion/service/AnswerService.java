@@ -25,7 +25,7 @@ public class AnswerService {
     @Transactional
     public AnswerResponseDTO createOrUpdateAnswer(AnswerRequestDTO requestDTO) {
         // Role 체크 로직
-        Member writer = memberRepository.findById(requestDTO.getWriterId())
+        Member writer = memberRepository.findByMemberId(requestDTO.getWriterId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
 
         Question question = questionRepository.findById(requestDTO.getQuestionId())

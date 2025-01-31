@@ -22,7 +22,7 @@ public class RoleChangeResponseDTO {
     public static RoleChangeResponseDTO of(RoleChange entity) {
         return RoleChangeResponseDTO.builder()
                 .requestId(entity.getRequestId())
-                .memberId(entity.getMember().getId())
+                .memberId(entity.getMember().getMemberId())
                 .name(entity.getMember().getName())
                 .major(entity.getMember().getMajor())
                 .studentNumber(entity.getMember().getStudentNumber())

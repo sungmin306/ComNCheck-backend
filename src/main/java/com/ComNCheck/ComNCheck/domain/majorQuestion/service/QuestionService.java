@@ -23,7 +23,7 @@ public class QuestionService {
 
     @Transactional
     public QuestionResponseDTO createQuestion(QuestionRequestDTO requestDTO) {
-        Member writer = memberRepository.findById(requestDTO.getWriterId())
+        Member writer = memberRepository.findByMemberId(requestDTO.getWriterId())
                 .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
 
         Question question = Question.builder()
@@ -54,7 +54,7 @@ public class QuestionService {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 질문이 존재하지 않습니다."));
 
-        if (!question.getWriter().getId().equals(writerId)) {
+        if (!question.getWriter().getMemberId().equals(writerId)) {
             throw new UnauthorizedException("작성자가 아닙니다.");
         }
 
@@ -67,14 +67,14 @@ public class QuestionService {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 질문이 존재하지 않습니다."));
 
-        if(question.getWriter().getId().equals(writerId)) {
+        if(question.getWriter().getMemberId().equals(writerId)) {
             throw new UnauthorizedException("작성자가 아닙니다.");
         }
         questionRepository.delete(question);
     }
 
     public List<QuestionResponseDTO> getMyQuestions(Long writerId) {
-        return questionRepository.findAllByWriterId(writerId)
+        return questionRepository.findAllByWriterMemberId(writerId)
                 .stream()
                 .map(QuestionResponseDTO::of)
                 .toList();

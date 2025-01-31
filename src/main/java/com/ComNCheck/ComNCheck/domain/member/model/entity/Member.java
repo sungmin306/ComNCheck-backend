@@ -16,7 +16,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    private Long id;
+    private Long memberId;
 
     @Column(name = "email", nullable = false)
     private String email;
@@ -38,8 +38,8 @@ public class Member {
     private String position;
 
     @Builder
-    public Member(Long id, String email, String name, String major, int studentNumber, Role role) {
-        this.id = id;
+    public Member(Long memberId, String email, String name, String major, int studentNumber, Role role) {
+        this.memberId = memberId;
         this.email = email;
         this.name = name;
         this.major = major;
