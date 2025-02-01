@@ -6,6 +6,7 @@ import com.ComNCheck.ComNCheck.domain.majorQuestion.service.AnswerService;
 import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class AnswerController {
 
     private final AnswerService answerService;
+    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
     @PostMapping
     public ResponseEntity<AnswerResponseDTO> createOrUpdateAnswer(
             @RequestBody AnswerRequestDTO requestDTO,
@@ -27,6 +29,7 @@ public class AnswerController {
         AnswerResponseDTO responseDTO = answerService.createOrUpdateAnswer(requestDTO);
         return ResponseEntity.ok(responseDTO);
     }
+    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
     @PutMapping("/{answerId}")
     public ResponseEntity<AnswerResponseDTO> updateAnswer(
             @PathVariable Long answerId,
@@ -36,7 +39,7 @@ public class AnswerController {
         AnswerResponseDTO responseDTO = answerService.updateAnswer(answerId, content);
         return ResponseEntity.ok(responseDTO);
     }
-
+    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
     @DeleteMapping("/{answerId}")
     public ResponseEntity<Void> deleteAnswer(
             @PathVariable Long answerId,

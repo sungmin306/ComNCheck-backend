@@ -10,6 +10,7 @@ import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MajorEventController {
 
     private final MajorEventService majorEventService;
-
+    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
     @PostMapping
     public ResponseEntity<EventResponseDTO> createMajorEvent(@ModelAttribute EventCreateRequestDTO requestDTO,
                                                              Authentication authentication) {
@@ -36,11 +37,13 @@ public class MajorEventController {
         return ResponseEntity.ok(responseDTO);
     }
 
+
     @GetMapping("/{majorEventId}")
     public ResponseEntity<EventResponseDTO> getMajorEvent(@PathVariable Long majorEventId) {
         EventResponseDTO responseDTO = majorEventService.getMajorEvent(majorEventId);
         return ResponseEntity.ok(responseDTO);
     }
+
 
     @GetMapping
     public ResponseEntity<List<EventListResponseDTO>> getAllMajorEventsNotPassed() {
@@ -57,6 +60,7 @@ public class MajorEventController {
 //        return ResponseEntity.ok(responseDTO);
 //    }
 
+    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
     @PutMapping("/{majorEventId}")
     public ResponseEntity<EventResponseDTO> updateMajorEvent(
             @PathVariable Long majorEventId,
@@ -66,6 +70,7 @@ public class MajorEventController {
         return ResponseEntity.ok(updateDTO);
     }
 
+    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
     @DeleteMapping("/{majorEventId}")
     public ResponseEntity<Void> deleteMajorEvent(@PathVariable Long majorEventId) {
         majorEventService.deleteMajorEvent(majorEventId);
