@@ -75,48 +75,48 @@ public class MajorEventService {
                 .collect(Collectors.toList());
     }
 
-    public PagedEventListResponseDTO getAllMajorEventPage(int page, int size) {
-        List<MajorEvent> all = majorEventRepository.findAll();
-
-        LocalDate today = LocalDate.now();
-        LocalTime currentTime = LocalTime.now();
-
-        List<MajorEvent> filtered = all.stream()
-                .filter(e -> isNotPassed(e, today, currentTime))
-                .collect(Collectors.toList());
-
-        filtered.sort(Comparator.comparing(MajorEvent::getDate)
-                .thenComparing(MajorEvent::getTime));
-
-        long totalElements = filtered.size();
-        int totalPages = (int) Math.ceil((double) totalElements / size);
-
-        if (page < 1) {
-            page = 1;
-        } else if (page >= totalPages && totalPages > 0) {
-            page = totalPages -1;
-        }
-        int zeroBasedPage = page - 1;
-        int startIndex = zeroBasedPage * size;
-        int endIndex = Math.min(startIndex + size, (int) totalElements);
-
-        List<MajorEvent> pageList = (startIndex < endIndex)
-                ? filtered.subList(startIndex, endIndex)
-                : Collections.emptyList();
-
-        List<EventListResponseDTO> content = pageList.stream()
-                .map(EventListResponseDTO::of)
-                .toList();
-
-        return PagedEventListResponseDTO.builder()
-                .currentPage(page)
-                .totalPages(totalPages)
-                .totalElements(totalElements)
-                .size(size)
-                .content(content)
-                .build();
-
-    }
+//    public PagedEventListResponseDTO getAllMajorEventPage(int page, int size) {
+//        List<MajorEvent> all = majorEventRepository.findAll();
+//
+//        LocalDate today = LocalDate.now();
+//        LocalTime currentTime = LocalTime.now();
+//
+//        List<MajorEvent> filtered = all.stream()
+//                .filter(e -> isNotPassed(e, today, currentTime))
+//                .collect(Collectors.toList());
+//
+//        filtered.sort(Comparator.comparing(MajorEvent::getDate)
+//                .thenComparing(MajorEvent::getTime));
+//
+//        long totalElements = filtered.size();
+//        int totalPages = (int) Math.ceil((double) totalElements / size);
+//
+//        if (page < 1) {
+//            page = 1;
+//        } else if (page >= totalPages && totalPages > 0) {
+//            page = totalPages -1;
+//        }
+//        int zeroBasedPage = page - 1;
+//        int startIndex = zeroBasedPage * size;
+//        int endIndex = Math.min(startIndex + size, (int) totalElements);
+//
+//        List<MajorEvent> pageList = (startIndex < endIndex)
+//                ? filtered.subList(startIndex, endIndex)
+//                : Collections.emptyList();
+//
+//        List<EventListResponseDTO> content = pageList.stream()
+//                .map(EventListResponseDTO::of)
+//                .toList();
+//
+//        return PagedEventListResponseDTO.builder()
+//                .currentPage(page)
+//                .totalPages(totalPages)
+//                .totalElements(totalElements)
+//                .size(size)
+//                .content(content)
+//                .build();
+//
+//    }
 
     @Transactional
     public EventResponseDTO updateMajorEvent(Long majorEventId, EventUpdateRequestDTO requestDTO) {

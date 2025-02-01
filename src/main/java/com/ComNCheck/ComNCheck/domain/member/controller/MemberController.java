@@ -1,6 +1,7 @@
 package com.ComNCheck.ComNCheck.domain.member.controller;
 
 import com.ComNCheck.ComNCheck.domain.member.model.dto.response.MemberDTO;
+import com.ComNCheck.ComNCheck.domain.member.model.dto.response.MemberInformationResponseDTO;
 import com.ComNCheck.ComNCheck.domain.member.model.dto.response.PresidentCouncilResponseDTO;
 import com.ComNCheck.ComNCheck.domain.member.service.MemberService;
 import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
@@ -22,10 +23,10 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/{memberId}/student/number")
-    public ResponseEntity<MemberDTO> registerStudentNumber(
+    public ResponseEntity<MemberInformationResponseDTO> registerStudentNumber(
             @PathVariable Long memberId,
             @RequestParam("studentCardImage") MultipartFile studentCardImage) {
-        MemberDTO responseDTO = memberService.registerStudentNumber(memberId, studentCardImage);
+        MemberInformationResponseDTO responseDTO = memberService.registerStudentNumber(memberId, studentCardImage);
         return ResponseEntity.ok(responseDTO);
     }
 
@@ -36,10 +37,10 @@ public class MemberController {
     }
 
     @GetMapping
-    public ResponseEntity<MemberDTO> getMemberInformation(Authentication authentication) {
+    public ResponseEntity<MemberInformationResponseDTO> getMemberInformation(Authentication authentication) {
         CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
         Long memberId = principal.getMemberDTO().getMemberId();
-        MemberDTO responseDTO = memberService.getMemberInformation(memberId);
+        MemberInformationResponseDTO responseDTO = memberService.getMemberInformation(memberId);
         return ResponseEntity.ok(responseDTO);
     }
 

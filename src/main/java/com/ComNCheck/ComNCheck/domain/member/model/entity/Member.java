@@ -27,7 +27,7 @@ public class Member {
     @Column(name = "major", nullable = false)
     private String major;
 
-    @Column(name = "studnet_number", nullable = false)
+    @Column(name = "student_number")
     private int studentNumber;
 
     @Column(name = "member_role", nullable = false)
@@ -36,6 +36,9 @@ public class Member {
 
     @Column(name = "position")
     private String position;
+
+    @Column(name = "is_check_student_card", nullable = false)
+    private boolean checkStudentCard;
 
     @Builder
     public Member(Long memberId, String email, String name, String major, int studentNumber, Role role) {
@@ -46,6 +49,7 @@ public class Member {
         this.studentNumber = studentNumber;
         this.position = null;
         this.role = role;
+        this.checkStudentCard = false;
     }
 
     /*
@@ -60,6 +64,9 @@ public class Member {
     }
     public void updateRole(Role newRole) {
         this.role = newRole;
+    }
+    public void changeIsCheckStudentCard() {
+        checkStudentCard = true;
     }
 }
 

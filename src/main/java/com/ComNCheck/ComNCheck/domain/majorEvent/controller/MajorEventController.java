@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/v1/major-event")
@@ -49,14 +48,14 @@ public class MajorEventController {
         return ResponseEntity.ok(allMajorEventsNotPassed);
     }
 
-    @GetMapping("/pages")
-    public ResponseEntity<PagedEventListResponseDTO> getAllMajorEventPage(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        PagedEventListResponseDTO responseDTO = majorEventService.getAllMajorEventPage(page, size);
-        return ResponseEntity.ok(responseDTO);
-    }
+//    @GetMapping("/pages")
+//    public ResponseEntity<PagedEventListResponseDTO> getAllMajorEventPage(
+//            @RequestParam(defaultValue = "1") int page,
+//            @RequestParam(defaultValue = "10") int size
+//    ) {
+//        PagedEventListResponseDTO responseDTO = majorEventService.getAllMajorEventPage(page, size);
+//        return ResponseEntity.ok(responseDTO);
+//    }
 
     @PutMapping("/{majorEventId}")
     public ResponseEntity<EventResponseDTO> updateMajorEvent(

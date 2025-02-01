@@ -9,7 +9,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 public class MemberDTO {
     private Long memberId;
@@ -22,14 +21,4 @@ public class MemberDTO {
     public MemberDTO() {
     }
 
-    public static MemberDTO of(Member member) {
-        return MemberDTO.builder()
-                .memberId(member.getMemberId())
-                .email(member.getEmail())
-                .name(member.getName())
-                .major(member.getMajor())
-                .studentNumber(member.getStudentNumber())
-                .role(member.getRole())
-                .build();
-    }
 }

@@ -1,11 +1,14 @@
 package com.ComNCheck.ComNCheck.domain.global.infrastructure;
 
+import com.ComNCheck.ComNCheck.domain.employmentNotice.model.dto.response.FastAPIEmploymentNoticeResponseListDTO;
 import com.ComNCheck.ComNCheck.domain.global.exception.FastApiException;
+import com.ComNCheck.ComNCheck.domain.majorNotice.model.dto.response.FastAPIMajorNoticesResponseListDTO;
 import com.ComNCheck.ComNCheck.domain.member.model.dto.response.FastApiStudentCardDTO;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,8 @@ public class FastApiClient {
     private final RestTemplate restTemplate;
 
     private static final String FAST_API_URL_OCR= "http://localhost:8000/api/vi/compare-and-ocr";
+    private static final String FAST_API_URL_SCRAPE_NOTICE = "http://localhost:8000/api/vi/scrape/notice";
+    private static final String Fast_API_URL_EMPLOYMENT = "http://localhost:8000/api/vi/scrape/employment";
 
     public FastApiStudentCardDTO sendImage(MultipartFile imageFile) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -52,6 +57,56 @@ public class FastApiClient {
 
         } catch (IOException e) {
             throw new FastApiException("이미지 처리 중 오류 발생: " + e.getMessage(), e);
+        }
+    }
+
+    public FastAPIMajorNoticesResponseListDTO fetchMajorNotices() {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+            ResponseEntity<FastAPIMajorNoticesResponseListDTO> response = restTemplate.exchange(
+                    FAST_API_URL_SCRAPE_NOTICE,
+                    HttpMethod.GET,
+                    requestEntity,
+                    FastAPIMajorNoticesResponseListDTO.class
+            );
+
+            if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
+                throw new FastApiException("FastAPI 호출 실패: " + response.getStatusCode());
+            }
+
+            return response.getBody();
+
+        } catch (Exception e) {
+            throw new FastApiException("공지사항 가져오기 중 오류 발생: " + e.getMessage(), e);
+        }
+    }
+
+    public FastAPIEmploymentNoticeResponseListDTO fetchEmploymentNotices() {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+            ResponseEntity<FastAPIEmploymentNoticeResponseListDTO> response = restTemplate.exchange(
+                    Fast_API_URL_EMPLOYMENT,
+                    HttpMethod.GET,
+                    requestEntity,
+                    FastAPIEmploymentNoticeResponseListDTO.class
+            );
+
+            if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
+                throw new FastApiException("FastAPI 호출 실패: " + response.getStatusCode());
+            }
+
+            return response.getBody();
+
+        } catch (Exception e) {
+            throw new FastApiException("공지사항 가져오기 중 오류 발생: " + e.getMessage(), e);
         }
     }
 }
