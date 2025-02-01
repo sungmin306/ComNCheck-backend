@@ -49,7 +49,7 @@ public class CustomOAuthMemberService extends DefaultOAuth2UserService {
                     .name(name)
                     .major(major)
                     .role(Role.ROLE_STUDENT)
-                    .studentNumber(null)
+                    .studentNumber(123456789)
                     .build();
             memberRepository.save(newMember);
             return newMember;

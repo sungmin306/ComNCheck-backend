@@ -20,7 +20,7 @@ public class MajorNotice {
     @Id
     @Column(name = "major_notice_id")
     private int noticeId;
-\
+
     @Column
     private String title;
 

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 public class MajorNoticeService {
+
     private final FastApiClient fastApiClient;
     private final MajorNoticeRepository majorNoticeRepository;
 

@@ -12,7 +12,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 @EnableScheduling
 @RequiredArgsConstructor
 public class EmploymentNoticeScheduler {
-    private EmploymentNoticeService employmentNoticeService;
+
+    private final EmploymentNoticeService employmentNoticeService;
 
     @Scheduled(cron = "0 0 * * * *")
     public void syncEmploymentNoticePeriodically() {
