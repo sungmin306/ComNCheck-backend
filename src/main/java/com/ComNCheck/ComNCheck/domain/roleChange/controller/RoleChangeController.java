@@ -8,6 +8,7 @@ import com.ComNCheck.ComNCheck.domain.roleChange.service.RoleChangeRequestServic
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,30 +35,34 @@ public class RoleChangeController {
         return ResponseEntity.created(location).body(createDTO);
     }
 
+    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
     @GetMapping
     public ResponseEntity<List<RoleChangeListDTO>> getAllRequest() {
         List<RoleChangeListDTO> response = roleChangeRequestService.getAllRequests();
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
     @GetMapping("/{requestId}")
     public ResponseEntity<RoleChangeResponseDTO> getRequestDetail(@PathVariable Long requestId) {
         RoleChangeResponseDTO responseDTO = roleChangeRequestService.getRequestDetail(requestId);
         return ResponseEntity.ok(responseDTO);
     }
 
+    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
     @PostMapping("{requestId}/approve")
     public ResponseEntity<String> approveRequest(@PathVariable Long requestId) {
         roleChangeRequestService.approveRequest(requestId);
         return ResponseEntity.ok("승인완료");
     }
-
+    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
     @GetMapping("/approved")
     public ResponseEntity<List<ApprovedRoleListDTO>> getApprovedRequests() {
         List<ApprovedRoleListDTO> approvedList = roleChangeRequestService.getApproveRequests();
         return ResponseEntity.ok(approvedList);
     }
 
+    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
     @PutMapping("/{requestId}/change-role")
     public ResponseEntity<String> changeMemberRole(
             @PathVariable Long requestId, @RequestBody RoleChangeRequestDTO requestDTO
@@ -66,6 +71,7 @@ public class RoleChangeController {
         return ResponseEntity.ok("등급 재변경 완료");
     }
 
+    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
     @DeleteMapping("/{requestId}")
     public ResponseEntity<String> deleteRequest(@PathVariable Long requestId) {
         roleChangeRequestService.deleteRequest(requestId);
