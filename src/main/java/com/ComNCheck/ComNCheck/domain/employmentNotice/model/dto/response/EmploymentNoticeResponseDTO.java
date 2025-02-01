@@ -12,7 +12,7 @@ import lombok.Getter;
 public class EmploymentNoticeResponseDTO {
     private int employmentNoticeId;
     private String title;
-    @JsonFormat(shape = Shape.STRING, pattern = "yyyy.mm.dd")
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy.MM.dd")
     private LocalDate date;
     private String link;
 

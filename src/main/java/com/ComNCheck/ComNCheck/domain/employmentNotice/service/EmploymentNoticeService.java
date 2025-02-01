@@ -24,8 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class EmploymentNoticeService {
 
-    private EmploymentNoticeRepository employmentNoticeRepository;
-    private FastApiClient fastApiClient;
+    private final EmploymentNoticeRepository employmentNoticeRepository;
+    private final FastApiClient fastApiClient;
 
     @Transactional
     public void syncEmploymentNotices() {
@@ -36,7 +36,7 @@ public class EmploymentNoticeService {
         if(response != null && response.getNotices() != null) {
             for(EmploymentNoticeResponseDTO dto : response.getNotices()) {
                 Optional<EmploymentNotice> findEmployment = employmentNoticeRepository
-                        .findEmploymentNoticeId(dto.getEmploymentNoticeId());
+                        .findByEmploymentNoticeId(dto.getEmploymentNoticeId());
                 if(findEmployment.isEmpty()) {
                     EmploymentNotice newEmploymentNotice = new EmploymentNotice(dto);
                     employmentNoticeRepository.save(newEmploymentNotice);
