@@ -6,9 +6,6 @@ import com.ComNCheck.ComNCheck.domain.employmentNotice.model.dto.response.PageEm
 import com.ComNCheck.ComNCheck.domain.employmentNotice.model.entity.EmploymentNotice;
 import com.ComNCheck.ComNCheck.domain.employmentNotice.repository.EmploymentNoticeRepository;
 import com.ComNCheck.ComNCheck.domain.global.infrastructure.FastApiClient;
-import com.ComNCheck.ComNCheck.domain.majorNotice.model.dto.response.MajorNoticeResponseDTO;
-import com.ComNCheck.ComNCheck.domain.majorNotice.model.dto.response.PageMajorNoticeResponseDTO;
-import com.ComNCheck.ComNCheck.domain.majorNotice.model.entity.MajorNotice;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

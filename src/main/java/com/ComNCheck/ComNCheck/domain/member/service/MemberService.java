@@ -12,6 +12,8 @@ import com.ComNCheck.ComNCheck.domain.member.model.dto.response.PresidentDTO;
 import com.ComNCheck.ComNCheck.domain.member.model.entity.Member;
 import com.ComNCheck.ComNCheck.domain.member.model.entity.Role;
 import com.ComNCheck.ComNCheck.domain.member.repository.MemberRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -84,5 +86,14 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 학생입니다."));
         return MemberInformationResponseDTO.of(member);
 
+    }
+
+    public void logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("Authorization", null);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 }

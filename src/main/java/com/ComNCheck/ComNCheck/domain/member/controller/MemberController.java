@@ -5,9 +5,11 @@ import com.ComNCheck.ComNCheck.domain.member.model.dto.response.MemberInformatio
 import com.ComNCheck.ComNCheck.domain.member.model.dto.response.PresidentCouncilResponseDTO;
 import com.ComNCheck.ComNCheck.domain.member.service.MemberService;
 import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,5 +45,14 @@ public class MemberController {
         MemberInformationResponseDTO responseDTO = memberService.getMemberInformation(memberId);
         return ResponseEntity.ok(responseDTO);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletResponse response) {
+        memberService.logout(response);
+        return ResponseEntity.ok("로그아웃 성공");
+    }
+
+
+
 
 }
