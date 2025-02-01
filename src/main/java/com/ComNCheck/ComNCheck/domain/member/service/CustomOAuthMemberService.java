@@ -49,7 +49,7 @@ public class CustomOAuthMemberService extends DefaultOAuth2UserService {
                     .name(name)
                     .major(major)
                     .role(Role.ROLE_STUDENT)
-                    .studentNumber(12345678)// 난수 변수 값 만드는 메서드 만들어야함
+                    .studentNumber(null)
                     .build();
             memberRepository.save(newMember);
             return newMember;
