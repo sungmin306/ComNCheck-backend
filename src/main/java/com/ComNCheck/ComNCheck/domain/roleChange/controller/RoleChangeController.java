@@ -1,5 +1,6 @@
 package com.ComNCheck.ComNCheck.domain.roleChange.controller;
 
+import com.ComNCheck.ComNCheck.domain.member.model.entity.Role;
 import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.request.RoleChangeRequestDTO;
 import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.ApprovedRoleListDTO;
 import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.RoleChangeListDTO;
@@ -40,48 +41,60 @@ public class RoleChangeController {
         return ResponseEntity.created(location).body(createDTO);
     }
 
-    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
     @GetMapping
-    public ResponseEntity<List<RoleChangeListDTO>> getAllRequest() {
-        List<RoleChangeListDTO> response = roleChangeRequestService.getAllRequests();
+    public ResponseEntity<List<RoleChangeListDTO>> getAllRequest(Authentication authentication) {
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
+        List<RoleChangeListDTO> response = roleChangeRequestService.getAllRequests(memberId);
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
+
     @GetMapping("/{requestId}")
-    public ResponseEntity<RoleChangeResponseDTO> getRequestDetail(@PathVariable Long requestId) {
-        RoleChangeResponseDTO responseDTO = roleChangeRequestService.getRequestDetail(requestId);
+    public ResponseEntity<RoleChangeResponseDTO> getRequestDetail(@PathVariable Long requestId,
+            Authentication authentication) {
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
+        RoleChangeResponseDTO responseDTO = roleChangeRequestService.getRequestDetail(requestId, memberId);
         return ResponseEntity.ok(responseDTO);
     }
 
-    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
     @PostMapping("{requestId}/approve")
-    public ResponseEntity<String> approveRequest(@PathVariable Long requestId) {
-        roleChangeRequestService.approveRequest(requestId);
+    public ResponseEntity<String> approveRequest(@PathVariable Long requestId
+            , Authentication authentication) {
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
+        roleChangeRequestService.approveRequest(requestId, memberId);
         return ResponseEntity.ok("승인완료");
     }
-    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
+
+
     @GetMapping("/approved")
-    public ResponseEntity<List<ApprovedRoleListDTO>> getApprovedRequests() {
-        List<ApprovedRoleListDTO> approvedList = roleChangeRequestService.getApproveRequests();
+    public ResponseEntity<List<ApprovedRoleListDTO>> getApprovedRequests(Authentication authentication) {
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
+        List<ApprovedRoleListDTO> approvedList = roleChangeRequestService.getApproveRequests(memberId);
         return ResponseEntity.ok(approvedList);
     }
 
-    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
     @PutMapping("/{requestId}/change-role")
     public ResponseEntity<String> changeMemberRole(
-            @PathVariable Long requestId, @RequestBody RoleChangeRequestDTO requestDTO
+            @PathVariable Long requestId, @RequestBody RoleChangeRequestDTO requestDTO,
+            Authentication authentication
     ) {
-        roleChangeRequestService.changeMemberRole(requestId, requestDTO);
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
+        roleChangeRequestService.changeMemberRole(requestId, requestDTO, memberId);
         return ResponseEntity.ok("등급 재변경 완료");
     }
 
-    @PreAuthorize("hasRole('MAJOR_PRESIDENT')")
     @DeleteMapping("/{requestId}")
-    public ResponseEntity<String> deleteRequest(@PathVariable Long requestId) {
-        roleChangeRequestService.deleteRequest(requestId);
+    public ResponseEntity<String> deleteRequest(@PathVariable Long requestId,
+                                                Authentication authentication) {
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
+        roleChangeRequestService.deleteRequest(requestId, memberId);
         return ResponseEntity.noContent().build();
     }
-
 
 }
