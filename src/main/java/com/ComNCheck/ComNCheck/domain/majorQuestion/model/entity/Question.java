@@ -43,7 +43,9 @@ public class Question {
 
     @OneToOne(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private Answer answer;
+    @Column
     private LocalDateTime createdAt;
+    @Column
     private LocalDateTime updatedAt;
 
 
@@ -55,7 +57,7 @@ public class Question {
         answer.setQuestion(this);
     }
 
-    public void updateQuestion(String title, String contest) {
+    public void updateQuestion(String title, String content) {
         this.title = title;
         this.content = content;
         this.updatedAt = LocalDateTime.now();

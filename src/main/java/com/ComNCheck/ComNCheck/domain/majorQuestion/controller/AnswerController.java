@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class AnswerController {
 
     private final AnswerService answerService;
-    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
     @PostMapping
     public ResponseEntity<AnswerResponseDTO> createOrUpdateAnswer(
             @RequestBody AnswerRequestDTO requestDTO,
@@ -24,28 +23,31 @@ public class AnswerController {
     ) {
         CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
         Long writerId = principal.getMemberDTO().getMemberId();
-        requestDTO.setWriterId(writerId);
 
-        AnswerResponseDTO responseDTO = answerService.createOrUpdateAnswer(requestDTO);
+        AnswerResponseDTO responseDTO = answerService.createOrUpdateAnswer(requestDTO, writerId);
         return ResponseEntity.ok(responseDTO);
     }
-    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
+
     @PutMapping("/{answerId}")
     public ResponseEntity<AnswerResponseDTO> updateAnswer(
             @PathVariable Long answerId,
-            @RequestBody String content,
+            @RequestBody AnswerRequestDTO answerRequestDTO,
             Authentication authentication
     ) {
-        AnswerResponseDTO responseDTO = answerService.updateAnswer(answerId, content);
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long writerId = principal.getMemberDTO().getMemberId();
+        AnswerResponseDTO responseDTO = answerService.updateAnswer(answerId, answerRequestDTO.getContent(), writerId);
         return ResponseEntity.ok(responseDTO);
     }
-    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
+
     @DeleteMapping("/{answerId}")
     public ResponseEntity<Void> deleteAnswer(
             @PathVariable Long answerId,
             Authentication authentication
     ) {
-        answerService.deleteAnswer(answerId);
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long writerId = principal.getMemberDTO().getMemberId();
+        answerService.deleteAnswer(answerId, writerId);
         return ResponseEntity.noContent().build();
     }
 }

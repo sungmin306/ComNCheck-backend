@@ -7,6 +7,8 @@ import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.response.EventRespons
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.response.PagedEventListResponseDTO;
 import com.ComNCheck.ComNCheck.domain.majorEvent.service.MajorEventService;
 import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MajorEventController {
 
     private final MajorEventService majorEventService;
-    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
+
     @PostMapping
     public ResponseEntity<EventResponseDTO> createMajorEvent(@ModelAttribute EventCreateRequestDTO requestDTO,
                                                              Authentication authentication) {
+        // 문제 발생시 쌍따음표 일수도 있음
         CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
         Long memberId = principal.getMemberDTO().getMemberId();
         EventResponseDTO responseDTO = majorEventService.createMajorEvent(requestDTO, memberId);
@@ -51,29 +54,26 @@ public class MajorEventController {
         return ResponseEntity.ok(allMajorEventsNotPassed);
     }
 
-//    @GetMapping("/pages")
-//    public ResponseEntity<PagedEventListResponseDTO> getAllMajorEventPage(
-//            @RequestParam(defaultValue = "1") int page,
-//            @RequestParam(defaultValue = "10") int size
-//    ) {
-//        PagedEventListResponseDTO responseDTO = majorEventService.getAllMajorEventPage(page, size);
-//        return ResponseEntity.ok(responseDTO);
-//    }
 
-    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
     @PutMapping("/{majorEventId}")
     public ResponseEntity<EventResponseDTO> updateMajorEvent(
             @PathVariable Long majorEventId,
-            @ModelAttribute EventUpdateRequestDTO requestDTO
+            @ModelAttribute EventUpdateRequestDTO requestDTO,
+            Authentication authentication
     ) {
-        EventResponseDTO updateDTO = majorEventService.updateMajorEvent(majorEventId, requestDTO);
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
+        EventResponseDTO updateDTO = majorEventService.updateMajorEvent(majorEventId, requestDTO, memberId);
         return ResponseEntity.ok(updateDTO);
     }
 
-    @PreAuthorize("hasRole('STUDENT_COUNCIL')")
+
     @DeleteMapping("/{majorEventId}")
-    public ResponseEntity<Void> deleteMajorEvent(@PathVariable Long majorEventId) {
-        majorEventService.deleteMajorEvent(majorEventId);
+    public ResponseEntity<Void> deleteMajorEvent(@PathVariable Long majorEventId,
+                                                 Authentication authentication) {
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
+        majorEventService.deleteMajorEvent(majorEventId, memberId);
         return ResponseEntity.noContent().build();
     }
 
