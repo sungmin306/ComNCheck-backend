@@ -24,8 +24,8 @@ public class RoleChangeRequestService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public RoleChangeResponseDTO createRoleChangeRequest(RoleChangeRequestDTO requestDTO) {
-        Member member = memberRepository.findByMemberId(requestDTO.getMemberId())
+    public RoleChangeResponseDTO createRoleChangeRequest(Long memberId, RoleChangeRequestDTO requestDTO) {
+        Member member = memberRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("등록된 회원이 없습니다."));
 
         RoleChange roleChange = RoleChange.builder()

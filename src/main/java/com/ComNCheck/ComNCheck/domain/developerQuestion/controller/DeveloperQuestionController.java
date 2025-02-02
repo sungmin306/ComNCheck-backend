@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("api/v1/developer/question")
+@RequestMapping("api/v1/developer/questions")
 @RequiredArgsConstructor
 @RestController
 public class DeveloperQuestionController {
@@ -28,10 +28,14 @@ public class DeveloperQuestionController {
 
     @PostMapping
     public ResponseEntity<DeveloperQuestionResponseDTO> createDeveloperQuestion(
-            @RequestBody DeveloperQuestionRequestDTO requestDTO
+            @RequestBody DeveloperQuestionRequestDTO requestDTO,
+            Authentication authentication
             ) {
-        DeveloperQuestionResponseDTO createdDTO = developerQuestionService.createDeveloperQuestion(requestDTO);
-        URI location = URI.create("api/v1/developer/question/" + createdDTO.getId());
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
+        DeveloperQuestionResponseDTO createdDTO = developerQuestionService
+                .createDeveloperQuestion(memberId, requestDTO);
+        URI location = URI.create("api/v1/developer/questions/" + createdDTO.getId());
         return ResponseEntity.created(location).body(createdDTO);
     }
 

@@ -23,8 +23,8 @@ public class DeveloperQuestionService {
     private final DeveloperQuestionRepository developerQuestionRepository;
 
     @Transactional
-    public DeveloperQuestionResponseDTO createDeveloperQuestion(DeveloperQuestionRequestDTO requestDTO) {
-        Member writer = memberRepository.findById(requestDTO.getWriterId())
+    public DeveloperQuestionResponseDTO createDeveloperQuestion(Long memberId, DeveloperQuestionRequestDTO requestDTO) {
+        Member writer = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException("회원이 존재하지 않습니다."));
 
         DeveloperQuestion developerQuestion = DeveloperQuestion.builder()
