@@ -40,19 +40,17 @@ public class EmploymentNoticeService {
                     changeEmploymentNotices.add(newEmploymentNotice);
                 } else {
                     EmploymentNotice existEmploymentNotice = findEmployment.get();
-                    if(!existEmploymentNotice.equalsDTO(dto)) {
-                        existEmploymentNotice.updateFromDto(dto);
+                    if (existEmploymentNotice.updateFromDto(dto)) {
                         employmentNoticeRepository.save(existEmploymentNotice);
                         changeEmploymentNotices.add(existEmploymentNotice);
                     }
                 }
             }
-
         }
         if (!changeEmploymentNotices.isEmpty()) {
             // fcm 기능 구현
+            System.out.println("알림 전송");
         }
-
     }
 
     public List<EmploymentNoticeResponseDTO> getAllEmploymentNotices() {

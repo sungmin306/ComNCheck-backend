@@ -61,7 +61,7 @@ public class JWTFilter extends OncePerRequestFilter {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if ("Authorization".equals(cookie.getName())) { // 쿠키 이름 확인
+                if ("JWT".equals(cookie.getName())) { // 쿠키 이름 확인
                     token = cookie.getValue();
                     logger.debug("Found Authorization cookie: " + token);
                     break;

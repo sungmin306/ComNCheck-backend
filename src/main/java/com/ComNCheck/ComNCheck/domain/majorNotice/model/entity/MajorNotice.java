@@ -1,5 +1,6 @@
 package com.ComNCheck.ComNCheck.domain.majorNotice.model.entity;
 
+import com.ComNCheck.ComNCheck.domain.employmentNotice.model.dto.response.EmploymentNoticeResponseDTO;
 import com.ComNCheck.ComNCheck.domain.majorNotice.model.dto.response.MajorNoticeResponseDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 
 @Getter
-@Table(name = "notices")
+@Table(name = "major_notices")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class MajorNotice {
@@ -43,10 +44,22 @@ public class MajorNotice {
                 this.date.isEqual(dto.getDate()) &&
                 this.link.equals(dto.getLink());
     }
-    public void updateFromDto(MajorNoticeResponseDTO dto) {
-        this.title = dto.getTitle();
-        this.date = dto.getDate();
-        this.link = dto.getLink();
+    public boolean updateFromDto(MajorNoticeResponseDTO dto) {
+        boolean changed = false;
+
+        if (!this.title.equals(dto.getTitle())) {
+            this.title = dto.getTitle();
+            changed = true;
+        }
+        if (!this.date.isEqual(dto.getDate())) {
+            this.date = dto.getDate();
+            changed = true;
+        }
+        if (!this.link.equals(dto.getLink())) {
+            this.link = dto.getLink();
+            changed = true;
+        }
+        return changed;
     }
 
 }

@@ -3,6 +3,7 @@ package com.ComNCheck.ComNCheck.domain.majorNotice.model.dto.response;
 
 import com.ComNCheck.ComNCheck.domain.majorNotice.model.entity.MajorNotice;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class MajorNoticeResponseDTO {
+    @JsonProperty("notice_id")
     private int noticeId;
     private String title;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd")
