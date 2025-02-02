@@ -36,7 +36,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String token = jwtUtil.createJwt(memberId, username, role, 60 * 60 * 1000L);
 
         response.addCookie(createCookie("JWT", token));
-        response.sendRedirect("http://localhost:3000/signup?id=" + memberId);
+        response.sendRedirect("http://localhost:3000/login/first");
 
     }
 

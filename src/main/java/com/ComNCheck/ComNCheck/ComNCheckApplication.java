@@ -9,6 +9,7 @@ public class ComNCheckApplication {
 
 	public static void main(String[] args) {
 
+		System.out.println("실행");
 		//Load .env file
 		Dotenv dotenv = Dotenv.load();
 		System.setProperty("H2_DB_URL", dotenv.get("H2_DB_URL"));
