@@ -33,15 +33,15 @@ public class QuestionController {
         QuestionResponseDTO responseDTO = questionService.createQuestion(requestDTO);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
+                .path("/{majorQuestionId}")
                 .buildAndExpand(responseDTO.getId())
                 .toUri();
         return ResponseEntity.created(location).body(responseDTO);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<QuestionResponseDTO> getQuestion(@PathVariable Long id) {
-        QuestionResponseDTO responseDTO = questionService.getQuestion(id);
+    @GetMapping("/{majorQuestionId}")
+    public ResponseEntity<QuestionResponseDTO> getQuestion(@PathVariable Long majorQuestionId) {
+        QuestionResponseDTO responseDTO = questionService.getQuestion(majorQuestionId);
         return ResponseEntity.ok(responseDTO);
     }
 
@@ -59,13 +59,13 @@ public class QuestionController {
          return ResponseEntity.ok(myQuestions);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<QuestionResponseDTO> updateQuestion(@PathVariable Long id,
+    @PutMapping("/{majorQuestionId}")
+    public ResponseEntity<QuestionResponseDTO> updateQuestion(@PathVariable Long majorQuestionId,
                                                               @RequestBody QuestionRequestDTO requestDTO,
                                                               Authentication authentication) {
         CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
         Long memberId = principal.getMemberDTO().getMemberId();
-        QuestionResponseDTO updateDTO = questionService.updateQuestion(id, requestDTO, memberId);
+        QuestionResponseDTO updateDTO = questionService.updateQuestion(majorQuestionId, requestDTO, memberId);
         return ResponseEntity.ok(updateDTO);
     }
 

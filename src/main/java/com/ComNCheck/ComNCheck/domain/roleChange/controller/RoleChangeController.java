@@ -5,10 +5,12 @@ import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.ApprovedRole
 import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.RoleChangeListDTO;
 import com.ComNCheck.ComNCheck.domain.roleChange.model.dto.response.RoleChangeResponseDTO;
 import com.ComNCheck.ComNCheck.domain.roleChange.service.RoleChangeRequestService;
+import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +31,11 @@ public class RoleChangeController {
 
     @PostMapping
     public ResponseEntity<RoleChangeResponseDTO> createRoleChangeRequest(
-            @RequestBody RoleChangeRequestDTO requestDTO) {
-        RoleChangeResponseDTO createDTO = roleChangeRequestService.createRoleChangeRequest(requestDTO);
+            @RequestBody RoleChangeRequestDTO requestDTO,
+            Authentication authentication) {
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
+        RoleChangeResponseDTO createDTO = roleChangeRequestService.createRoleChangeRequest(memberId, requestDTO);
         URI location = URI.create("api/role-change-requests/" + createDTO.getRequestId());
         return ResponseEntity.created(location).body(createDTO);
     }

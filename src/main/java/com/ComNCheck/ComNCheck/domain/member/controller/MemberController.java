@@ -22,10 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberController {
     private final MemberService memberService;
 
-    @PostMapping("/{memberId}/student/number")
+    @PostMapping("/student/number")
     public ResponseEntity<MemberInformationResponseDTO> registerStudentNumber(
-            @PathVariable Long memberId,
-            @RequestParam("studentCardImage") MultipartFile studentCardImage) {
+            @RequestParam("studentCardImage") MultipartFile studentCardImage,
+            Authentication authentication) {
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
         MemberInformationResponseDTO responseDTO = memberService.registerStudentNumber(memberId, studentCardImage);
         return ResponseEntity.ok(responseDTO);
     }
