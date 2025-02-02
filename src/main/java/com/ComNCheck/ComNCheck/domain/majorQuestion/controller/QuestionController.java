@@ -6,7 +6,6 @@ import com.ComNCheck.ComNCheck.domain.majorQuestion.service.QuestionService;
 import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
 import java.net.URI;
 import java.util.List;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -29,13 +28,17 @@ public class QuestionController {
 
 
     @PostMapping
-    public ResponseEntity<QuestionResponseDTO> createQuestion(@RequestBody QuestionRequestDTO requestDTO) {
-        QuestionResponseDTO responseDTO = questionService.createQuestion(requestDTO);
+    public ResponseEntity<QuestionResponseDTO> createQuestion(@RequestBody QuestionRequestDTO requestDTO,
+                                                              Authentication authentication) {
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long memberId = principal.getMemberDTO().getMemberId();
+        QuestionResponseDTO responseDTO = questionService.createQuestion(requestDTO, memberId);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{majorQuestionId}")
                 .buildAndExpand(responseDTO.getId())
                 .toUri();
+
         return ResponseEntity.created(location).body(responseDTO);
     }
 
@@ -69,11 +72,11 @@ public class QuestionController {
         return ResponseEntity.ok(updateDTO);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteQuestion(@PathVariable Long id, Authentication authentication) {
+    @DeleteMapping("/{majorQuestionId}")
+    public ResponseEntity<Void> deleteQuestion(@PathVariable Long majorQuestionId, Authentication authentication) {
         CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
         Long memberId = principal.getMemberDTO().getMemberId();
-        questionService.deleteQuestion(id, memberId);
+        questionService.deleteQuestion(majorQuestionId, memberId);
         return ResponseEntity.noContent().build();
     }
 

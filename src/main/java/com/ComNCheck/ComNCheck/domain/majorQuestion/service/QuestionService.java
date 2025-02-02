@@ -22,8 +22,8 @@ public class QuestionService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public QuestionResponseDTO createQuestion(QuestionRequestDTO requestDTO) {
-        Member writer = memberRepository.findByMemberId(requestDTO.getWriterId())
+    public QuestionResponseDTO createQuestion(QuestionRequestDTO requestDTO, Long memberId) {
+        Member writer = memberRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
 
         Question question = Question.builder()
@@ -67,7 +67,7 @@ public class QuestionService {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 질문이 존재하지 않습니다."));
 
-        if(question.getWriter().getMemberId().equals(writerId)) {
+        if(!question.getWriter().getMemberId().equals(writerId)) {
             throw new UnauthorizedException("작성자가 아닙니다.");
         }
         questionRepository.delete(question);

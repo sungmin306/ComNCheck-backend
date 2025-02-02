@@ -122,8 +122,9 @@ public class RoleChangeRequestService {
 
     public void isCheckRole(Member member) {
         Role checkRole = member.getRole();
-        if(checkRole != Role.ROLE_MAJOR_PRESIDENT) {
+        if (checkRole != Role.ROLE_MAJOR_PRESIDENT && checkRole != Role.ROLE_ADMIN) {
             throw new IllegalArgumentException("접근 권한이 없습니다.");
         }
     }
+
 }
