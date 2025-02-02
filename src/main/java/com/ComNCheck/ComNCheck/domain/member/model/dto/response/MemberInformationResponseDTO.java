@@ -4,8 +4,10 @@ import com.ComNCheck.ComNCheck.domain.member.model.entity.Member;
 
 import com.ComNCheck.ComNCheck.domain.member.model.entity.Role;
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class MemberInformationResponseDTO {
 
     private Long memberId;

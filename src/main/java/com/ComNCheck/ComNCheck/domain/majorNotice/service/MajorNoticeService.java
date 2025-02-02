@@ -39,8 +39,7 @@ public class MajorNoticeService {
                     changeMajorNotices.add(newMajorNotice);
                 } else {
                     MajorNotice existingMajorNotice = findNotice.get();
-                    if(!existingMajorNotice.equalsDTO(dto)) {
-                        existingMajorNotice.updateFromDto(dto);
+                    if (existingMajorNotice.updateFromDto(dto)) {
                         majorNoticeRepository.save(existingMajorNotice);
                         changeMajorNotices.add(existingMajorNotice);
                     }
@@ -49,6 +48,7 @@ public class MajorNoticeService {
         }
         if(!changeMajorNotices.isEmpty()) {
             // fcm 기능 구현
+            System.out.println("알림 전송");
         }
     }
 

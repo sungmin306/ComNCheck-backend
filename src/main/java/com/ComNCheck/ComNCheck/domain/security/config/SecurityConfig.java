@@ -37,7 +37,7 @@ public class SecurityConfig {
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Arrays.asList("*"));
                         configuration.setMaxAge(3600L);
-                        configuration.setExposedHeaders(Arrays.asList("Set-Cookie", "Authorization"));
+                        configuration.setExposedHeaders(Arrays.asList("Set-Cookie", "JWT"));
                         return configuration;
                     }
                 }))
@@ -72,7 +72,6 @@ public class SecurityConfig {
                                 .userService(customOAuth2MemberService))
                         .successHandler(customSuccessHandler)
                 );
-        System.out.println("시큐리티config");
         // H2 Console 관련 헤더 설정 -> 디비 변경 시 제거
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
 

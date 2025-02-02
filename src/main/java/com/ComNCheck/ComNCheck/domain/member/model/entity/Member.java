@@ -24,7 +24,8 @@ public class Member {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "major", nullable = false)
+     // 실제 배포에서는 nullable 설정 false 해야함
+    @Column(name = "major", nullable = true)
     private String major;
 
     @Column(name = "student_number")

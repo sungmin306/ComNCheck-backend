@@ -1,6 +1,5 @@
 package com.ComNCheck.ComNCheck.domain.member.controller;
 
-import com.ComNCheck.ComNCheck.domain.member.model.dto.response.MemberDTO;
 import com.ComNCheck.ComNCheck.domain.member.model.dto.response.MemberInformationResponseDTO;
 import com.ComNCheck.ComNCheck.domain.member.model.dto.response.PresidentCouncilResponseDTO;
 import com.ComNCheck.ComNCheck.domain.member.service.MemberService;
@@ -9,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

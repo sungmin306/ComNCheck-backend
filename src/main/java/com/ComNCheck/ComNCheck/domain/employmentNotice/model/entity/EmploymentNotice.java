@@ -37,15 +37,21 @@ public class EmploymentNotice {
         this.link = dto.getLink();
     }
 
-    public boolean equalsDTO(EmploymentNoticeResponseDTO dto) {
-        return this.employmentNoticeId == dto.getEmploymentNoticeId() &&
-                this.title.equals(dto.getTitle()) &&
-                this.date.isEqual(dto.getDate()) &&
-                this.link.equals(dto.getLink());
-    }
-    public void updateFromDto(EmploymentNoticeResponseDTO dto) {
-        this.title = dto.getTitle();
-        this.date = dto.getDate();
-        this.link = dto.getLink();
+    public boolean updateFromDto(EmploymentNoticeResponseDTO dto) {
+        boolean changed = false;
+
+        if (!this.title.equals(dto.getTitle())) {
+            this.title = dto.getTitle();
+            changed = true;
+        }
+        if (!this.date.isEqual(dto.getDate())) {
+            this.date = dto.getDate();
+            changed = true;
+        }
+        if (!this.link.equals(dto.getLink())) {
+            this.link = dto.getLink();
+            changed = true;
+        }
+        return changed;
     }
 }
