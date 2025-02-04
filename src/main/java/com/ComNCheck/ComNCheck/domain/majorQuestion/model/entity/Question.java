@@ -37,6 +37,9 @@ public class Question {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private boolean shared;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id")
     private Member writer;
@@ -48,13 +51,10 @@ public class Question {
     @Column
     private LocalDateTime updatedAt;
 
-//    @Column
-//    private boolean
-
-
     /*
     연관관계 편의 메서드
      */
+
     public void setAnswer(Answer answer) {
         this.answer = answer;
         answer.setQuestion(this);

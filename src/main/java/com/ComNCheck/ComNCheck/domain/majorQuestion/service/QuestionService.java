@@ -29,6 +29,7 @@ public class QuestionService {
         Question question = Question.builder()
                 .title(requestDTO.getTitle())
                 .content(requestDTO.getContent())
+                .shared(requestDTO.isShared())
                 .writer(writer)
                 .build();
 
@@ -44,7 +45,7 @@ public class QuestionService {
 
     public List<QuestionResponseDTO> getQuestionsWithAnswer() {
 
-        return questionRepository.findByAnswerIsNotNull()
+        return questionRepository.findByAnswerIsNotNullAndSharedTrue()
                 .stream()
                 .map(QuestionResponseDTO::of)
                 .toList();
