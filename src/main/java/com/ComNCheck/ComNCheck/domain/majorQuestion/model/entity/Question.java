@@ -48,6 +48,9 @@ public class Question {
     @Column
     private LocalDateTime updatedAt;
 
+//    @Column
+//    private boolean
+
 
     /*
     연관관계 편의 메서드

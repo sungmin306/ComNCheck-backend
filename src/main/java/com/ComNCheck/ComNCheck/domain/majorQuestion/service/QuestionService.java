@@ -42,8 +42,9 @@ public class QuestionService {
         return QuestionResponseDTO.of(question);
     }
 
-    public List<QuestionResponseDTO> getAllQuestions() {
-        return questionRepository.findAll()
+    public List<QuestionResponseDTO> getQuestionsWithAnswer() {
+
+        return questionRepository.findByAnswerIsNotNull()
                 .stream()
                 .map(QuestionResponseDTO::of)
                 .toList();

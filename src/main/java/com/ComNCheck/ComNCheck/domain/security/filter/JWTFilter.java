@@ -34,8 +34,8 @@ public class JWTFilter extends OncePerRequestFilter {
             "/webjars/**",
             "/login/**",
             "/oauth2/**",
-            "/h2-console/**"
-            //"api/v1/**"
+            "/h2-console/**",
+            "api/v1/**"
     };
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
