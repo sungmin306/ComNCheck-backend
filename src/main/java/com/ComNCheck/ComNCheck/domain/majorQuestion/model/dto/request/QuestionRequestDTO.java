@@ -8,5 +8,5 @@ import lombok.Setter;
 public class QuestionRequestDTO {
     private String title;
     private String content;
-
+    private boolean shared;
 }

@@ -52,7 +52,8 @@ public class QuestionController {
     }
 
     @GetMapping
-    @Operation(summary = "fAQ의 답변이 달린 게시글 목록 조회", description = "댓글이 달린 모든 게시글 목록을 조회한다.")
+    @Operation(summary = "fAQ의 답변이 달린 게시글 목록 조회 공유가 true 인 경우만"
+            , description = "댓글이 달린 모든 게시글 목록을 조회한다.")
     public ResponseEntity<List<QuestionResponseDTO>> getAllQuestion() {
         List<QuestionResponseDTO> questions = questionService.getQuestionsWithAnswer();
         return ResponseEntity.ok(questions);
