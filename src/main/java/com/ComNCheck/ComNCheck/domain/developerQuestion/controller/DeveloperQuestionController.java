@@ -5,6 +5,7 @@ import com.ComNCheck.ComNCheck.domain.developerQuestion.model.dto.request.Develo
 import com.ComNCheck.ComNCheck.domain.developerQuestion.model.dto.response.DeveloperQuestionResponseDTO;
 import com.ComNCheck.ComNCheck.domain.developerQuestion.service.DeveloperQuestionService;
 import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
+import io.swagger.v3.oas.annotations.Operation;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class DeveloperQuestionController {
     private final DeveloperQuestionService developerQuestionService;
 
     @PostMapping
+    @Operation(summary = "개발자 질문 게시글 작성", description = "개발자에게 질문글을 작성할 수 있다.")
     public ResponseEntity<DeveloperQuestionResponseDTO> createDeveloperQuestion(
             @RequestBody DeveloperQuestionRequestDTO requestDTO,
             Authentication authentication
@@ -40,6 +42,7 @@ public class DeveloperQuestionController {
     }
 
     @GetMapping("/{developerQuestionId}")
+    @Operation(summary = "특정 개발자 질문 게시글 조회", description = "특정 개발자 질문 게시글 조회한다.")
     public ResponseEntity<DeveloperQuestionResponseDTO> getDeveloperQuestion(
             @PathVariable Long developerQuestionId
     ) {
@@ -48,12 +51,14 @@ public class DeveloperQuestionController {
     }
 
     @GetMapping
+    @Operation(summary = "개발자 질문 게시글 목록 조회", description = "개발자 질문 게시글 목록 조회한다.")
     public ResponseEntity<List<DeveloperQuestionResponseDTO>> getAllDeveloperQuestions() {
         List<DeveloperQuestionResponseDTO> questionList = developerQuestionService.getAllQuestion();
         return ResponseEntity.ok(questionList);
     }
 
     @PutMapping("/{developerQuestionId}")
+    @Operation(summary = "개발자 질문 게시글 수정", description = "개발자 질문 게시글을 수정한다.")
     public ResponseEntity<DeveloperQuestionResponseDTO> updateDeveloperQuestion(
             @PathVariable Long developerQuestionId,
             @RequestBody DeveloperQuestionResponseDTO requestDTO,
@@ -68,6 +73,7 @@ public class DeveloperQuestionController {
     }
 
     @DeleteMapping("/{developerQuestionId}")
+    @Operation(summary = "개발자 질문 게시글 삭제", description = "개발자 질문 게시글을 삭제한다.")
     public ResponseEntity<Void> deleteDeveloperQuestion(
             @PathVariable Long developerQuestionId,
             Authentication authentication

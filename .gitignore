@@ -44,3 +44,5 @@ hs_err_pid44980.log
 
 
 build/
+
+docker-compose.yaml

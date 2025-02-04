@@ -23,9 +23,12 @@ import org.springframework.http.HttpHeaders;
 public class FastApiClient {
     private final RestTemplate restTemplate;
 
-    private static final String FAST_API_URL_OCR= "http://localhost:8000/api/vi/compare-and-ocr";
-    private static final String FAST_API_URL_SCRAPE_NOTICE = "http://localhost:8000/api/vi/scrape/notice";
-    private static final String Fast_API_URL_EMPLOYMENT = "http://localhost:8000/api/vi/scrape/employment";
+    private static final String LOCAL = "http://localhost:8000";
+    public static final String TEST_DISTRIBUTION = "http://comncheck.iptime.org:8000";
+
+    private static final String FAST_API_URL_OCR= TEST_DISTRIBUTION + "/api/vi/compare-and-ocr";
+    private static final String FAST_API_URL_SCRAPE_NOTICE = TEST_DISTRIBUTION + "/api/vi/scrape/notice";
+    private static final String Fast_API_URL_EMPLOYMENT = TEST_DISTRIBUTION + "/api/vi/scrape/employment";
 
     public FastApiStudentCardDTO sendImage(MultipartFile imageFile) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();

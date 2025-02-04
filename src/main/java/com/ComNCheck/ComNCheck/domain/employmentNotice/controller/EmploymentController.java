@@ -3,6 +3,7 @@ package com.ComNCheck.ComNCheck.domain.employmentNotice.controller;
 import com.ComNCheck.ComNCheck.domain.employmentNotice.model.dto.response.EmploymentNoticeResponseDTO;
 import com.ComNCheck.ComNCheck.domain.employmentNotice.model.dto.response.PageEmploymentNoticeResponseDTO;
 import com.ComNCheck.ComNCheck.domain.employmentNotice.service.EmploymentNoticeService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.xml.bind.annotation.XmlType.DEFAULT;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,14 @@ public class EmploymentController {
     private final EmploymentNoticeService employmentNoticeService;
 
     @GetMapping
+    @Operation(summary = "취업정보 게시판 목록 조회", description = "취업정보 게시판 목록을 조회한다.")
     public ResponseEntity<List<EmploymentNoticeResponseDTO>> getAllEmploymentNotice() {
         List<EmploymentNoticeResponseDTO> lists = employmentNoticeService.getAllEmploymentNotices();
         return ResponseEntity.ok(lists);
     }
 
     @GetMapping("/pages")
+    @Operation(summary = "취업정보 게시판 목록 조회(페이지네이션)", description = "페이지네이션으로 취업정보 게시판 목록을 조회한다.")
     public ResponseEntity<PageEmploymentNoticeResponseDTO> getEmploymentNoticePage(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size
