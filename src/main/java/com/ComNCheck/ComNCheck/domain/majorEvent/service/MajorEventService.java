@@ -4,20 +4,23 @@ import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.request.EventCreateRe
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.request.EventUpdateRequestDTO;
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.response.EventListResponseDTO;
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.response.EventResponseDTO;
-import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.response.PagedEventListResponseDTO;
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.entity.MajorEvent;
 import com.ComNCheck.ComNCheck.domain.majorEvent.repository.MajorEventRepository;
 import com.ComNCheck.ComNCheck.domain.member.model.entity.Member;
 import com.ComNCheck.ComNCheck.domain.member.model.entity.Role;
 import com.ComNCheck.ComNCheck.domain.member.repository.MemberRepository;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.BlobInfo;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,10 +32,12 @@ public class MajorEventService {
 
     private final MajorEventRepository majorEventRepository;
     private final MemberRepository memberRepository;
+    @Value("${spring.cloud.gcp.storage.bucket}")
+    private String bucketName;
+    private final Storage storage;
 
     @Transactional
     public EventResponseDTO createMajorEvent(EventCreateRequestDTO requestDTO, Long writerId) {
-        System.out.println("서비스 들어옴");
         Member writer = memberRepository.findByMemberId(writerId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
@@ -126,11 +131,27 @@ public class MajorEventService {
         if (images == null || images.isEmpty()) {
             return new ArrayList<>();
         }
+
         List<String> uploadUrls = new ArrayList<>();
-        for(MultipartFile file : images) {
-            // gcs 업로드 호출
-            String url = "https://gcs.com" + file.getOriginalFilename();
-            uploadUrls.add(url);
+        for (MultipartFile file : images) {
+            try {
+                String uuid = UUID.randomUUID().toString();
+                String contentType = file.getContentType();
+                if (contentType == null) {
+                    contentType = "application/octet-stream";
+                }
+                BlobInfo blobInfo = storage.create(
+                        BlobInfo.newBuilder(bucketName, uuid)
+                                .setContentType(contentType)
+                                .build(),
+                        file.getInputStream()
+                );
+                String url = "https://storage.googleapis.com/" + bucketName + "/" + uuid;
+                uploadUrls.add(url);
+
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 업로드 실패", e);
+            }
         }
         return uploadUrls;
     }
@@ -141,7 +162,6 @@ public class MajorEventService {
     }
 
     public void isCheckRole(Member member) {
-        System.out.println("조건문 들어옴");
         Role checkRole = member.getRole();
         if(checkRole != Role.ROLE_ADMIN && checkRole != Role.ROLE_MAJOR_PRESIDENT && checkRole != Role.ROLE_STUDENT_COUNCIL) {
             System.out.println("접근 권한이 없음");
