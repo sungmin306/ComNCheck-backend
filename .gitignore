@@ -46,3 +46,5 @@ hs_err_pid44980.log
 build/
 
 docker-compose.yaml
+
+/src/main/resources/ancient-pipe-447417-i4-755ce59fbf03.json
