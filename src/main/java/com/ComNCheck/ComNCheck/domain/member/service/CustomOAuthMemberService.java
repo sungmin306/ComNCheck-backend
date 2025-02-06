@@ -26,7 +26,6 @@ public class CustomOAuthMemberService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        System.out.println( "oAuthUser 정보"+ oAuth2User);
         String email = oAuth2User.getAttribute("email");
         String name = extractName(oAuth2User.getAttribute("name"));
         String major = extractMajor(oAuth2User.getAttribute("name"));
@@ -62,6 +61,7 @@ public class CustomOAuthMemberService extends DefaultOAuth2UserService {
             memberDTO.setMajor(member.getMajor());
             memberDTO.setRole(member.getRole());
             memberDTO.setStudentNumber(member.getStudentNumber());
+            memberDTO.setCheckStudentCard(true);
             return new CustomOAuth2Member(memberDTO);
     }
 

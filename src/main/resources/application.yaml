@@ -10,7 +10,7 @@ spring:
       - classpath:/yaml/application-local.yaml
   profiles:
     group:
-      setting: local
+      setting: local, log
     active : setting
 
   data:

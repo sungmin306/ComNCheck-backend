@@ -38,7 +38,7 @@ public class Member {
     @Column(name = "position")
     private String position;
 
-    @Column(name = "is_check_student_card", nullable = false)
+    @Column(name = "check_student_card", nullable = false)
     private boolean checkStudentCard;
 
     @Builder
@@ -57,6 +57,7 @@ public class Member {
     setter code
     어노테이션으로 안하고 필요한 경우만 setter 설정
      */
+
     public void setStudentNumber(int studentNumber) {
         this.studentNumber = studentNumber;
     }

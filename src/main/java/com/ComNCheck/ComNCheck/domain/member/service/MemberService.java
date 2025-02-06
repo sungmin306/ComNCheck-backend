@@ -89,7 +89,7 @@ public class MemberService {
     }
 
     public void logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("JWT", null);
+        Cookie cookie = new Cookie("AccessToken", null);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         //cookie.setSecure(true);
