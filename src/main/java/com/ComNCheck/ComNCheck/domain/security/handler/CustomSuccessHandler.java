@@ -32,11 +32,19 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority().toString();
+        boolean checkStudentCard = customMemberDetails.isCheckStudentCard();
+        System.out.println(checkStudentCard);
 
         String token = jwtUtil.createJwt(memberId, username, role, 60 * 60 * 1000L);
 
-        response.addCookie(createCookie("JWT", token));
-        response.sendRedirect("http://localhost:3000/login/first");
+        response.addCookie(createCookie("AccessToken", token));
+        if(!checkStudentCard) {
+            response.sendRedirect("http://localhost:3000/login/first");
+        }
+        else {
+            response.sendRedirect("http://localhost:3000/notice");
+        }
+        //response.sendRedirect("http://localhost:3000/login/first");
 
     }
 

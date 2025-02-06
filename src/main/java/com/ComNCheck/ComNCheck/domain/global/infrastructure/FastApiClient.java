@@ -26,9 +26,9 @@ public class FastApiClient {
     private static final String LOCAL = "http://localhost:8000";
     public static final String TEST_DISTRIBUTION = "http://comncheck.iptime.org:8000";
 
-    private static final String FAST_API_URL_OCR= TEST_DISTRIBUTION + "/api/vi/compare-and-ocr";
-    private static final String FAST_API_URL_SCRAPE_NOTICE = TEST_DISTRIBUTION + "/api/vi/scrape/notice";
-    private static final String Fast_API_URL_EMPLOYMENT = TEST_DISTRIBUTION + "/api/vi/scrape/employment";
+    private static final String FAST_API_URL_OCR= TEST_DISTRIBUTION + "/api/v1/compare-and-ocr";
+    private static final String FAST_API_URL_SCRAPE_NOTICE = TEST_DISTRIBUTION + "/api/v1/scrape/notice";
+    private static final String Fast_API_URL_EMPLOYMENT = TEST_DISTRIBUTION + "/api/v1/scrape/employment";
 
     public FastApiStudentCardDTO sendImage(MultipartFile imageFile) {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();

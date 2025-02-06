@@ -61,7 +61,7 @@ public class JWTFilter extends OncePerRequestFilter {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if ("JWT".equals(cookie.getName())) { // 쿠키 이름 확인
+                if ("AccessToken".equals(cookie.getName())) { // 쿠키 이름 확인
                     token = cookie.getValue();
                     logger.debug("Found Authorization cookie: " + token);
                     break;
@@ -95,7 +95,7 @@ public class JWTFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
                 logger.debug("SecurityContext set with user: " + username);
             } else {
-                logger.debug("No JWT token found in cookies.");
+                logger.debug("No AccessToken token found in cookies.");
             }
         } catch (Exception e) {
             logger.error("Authentication error: " + e.getMessage());
