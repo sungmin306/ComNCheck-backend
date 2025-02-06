@@ -2,23 +2,31 @@ server:
   port: 8080
 
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
   application:
     name: ComNCheck
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: ${H2_DB_URL:jdbc:h2:mem:test} #url: 'jdbc:h2:~/test' -> H2 DB 연결 주소 (Embedded Mode)
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings:
-        web-allow-others: true
+  config:
+    import:
+      - classpath:/yaml/application-dev.yaml
+      - classpath:/yaml/application-local.yaml
+  profiles:
+    group:
+      setting: local
+    active : setting
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD}
+
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:ancient-pipe-447417-i4-755ce59fbf03.json
+        project-id: ${PROJECT_ID}
+        bucket: ${BUCKET_ID}
+
   security:
     oauth2:
       client:
@@ -32,18 +40,6 @@ spring:
             scope:
               - email
               - profile
-  data:
-    redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
-      password: ${REDIS_PASSWORD}
-  cloud:
-    gcp:
-      storage:
-        credentials:
-          location: classpath:ancient-pipe-447417-i4-755ce59fbf03.json
-        project-id: ${PROJECT_ID}
-        bucket: ${BUCKET_ID}
 jwt:
   secret: ${JWT_SECRET}
   expirationMs: ${JWT_EXPIRATIONMS}
