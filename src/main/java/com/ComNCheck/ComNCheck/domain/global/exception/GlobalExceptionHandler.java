@@ -1,6 +1,5 @@
 package com.ComNCheck.ComNCheck.domain.global.exception;
 
-import com.ComNCheck.ComNCheck.domain.member.exception.FastApiException;
 import com.ComNCheck.ComNCheck.domain.member.exception.MemberNotFoundException;
 import com.ComNCheck.ComNCheck.domain.member.exception.ValidationException;
 import org.springframework.http.HttpStatus;

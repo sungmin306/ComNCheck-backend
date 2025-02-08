@@ -55,7 +55,7 @@ public class DeveloperQuestionService {
         DeveloperQuestion developerQuestion = developerQuestionRepository.findById(developerQuestionId)
                 .orElseThrow(() -> new IllegalArgumentException("질문글을 찾을 수 없습니다."));
 
-        if(!developerQuestion.getWriter().getId().equals(writerId))
+        if(!developerQuestion.getWriter().getMemberId().equals(writerId))
             throw new UnauthorizedException("게시글 작성자가 아닙니다.");
 
         developerQuestion.updateDeveloperQuestion(requestDTO.getContent());
@@ -67,7 +67,7 @@ public class DeveloperQuestionService {
         DeveloperQuestion developerQuestion = developerQuestionRepository.findById(developerQuestionId)
                 .orElseThrow(() -> new IllegalArgumentException("질문글을 찾을 수 없습니다."));
 
-        if(!developerQuestion.getWriter().getId().equals(writerId))
+        if(!developerQuestion.getWriter().getMemberId().equals(writerId))
             throw new UnauthorizedException("게시글 작성자가 아닙니다.");
 
         developerQuestionRepository.delete(developerQuestion);

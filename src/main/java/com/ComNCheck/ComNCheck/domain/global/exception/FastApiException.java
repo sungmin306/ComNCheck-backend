@@ -1,4 +1,4 @@
-package com.ComNCheck.ComNCheck.domain.member.exception;
+package com.ComNCheck.ComNCheck.domain.global.exception;
 
 public class FastApiException extends RuntimeException {
     public FastApiException(String message) {

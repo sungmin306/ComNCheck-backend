@@ -20,7 +20,7 @@ public class AnswerResponseDTO {
                 .id(answer.getId())
                 .content(answer.getContent())
                 .questionId(answer.getQuestion().getId())
-                .writerId(answer.getWriter().getId())
+                .writerId(answer.getWriter().getMemberId())
                 .createdAt(answer.getCreatedAt())
                 .updatedAt(answer.getUpdatedAt())
                 .build();

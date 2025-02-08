@@ -4,6 +4,7 @@ import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.request.EventCreateRe
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.request.EventUpdateRequestDTO;
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.response.EventListResponseDTO;
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.response.EventResponseDTO;
+import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.response.PagedEventListResponseDTO;
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.entity.MajorEvent;
 import com.ComNCheck.ComNCheck.domain.majorEvent.repository.MajorEventRepository;
 import com.ComNCheck.ComNCheck.domain.member.model.entity.Member;
@@ -11,6 +12,7 @@ import com.ComNCheck.ComNCheck.domain.member.repository.MemberRepository;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +31,7 @@ public class MajorEventService {
 
     @Transactional
     public EventResponseDTO createMajorEvent(EventCreateRequestDTO requestDTO, Long writerId) {
-        Member writer = memberRepository.findById(writerId)
+        Member writer = memberRepository.findByMemberId(writerId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
         List<String> imageUrls = uploadImagesToGcs(requestDTO.getCardNewsImages());
@@ -71,6 +73,49 @@ public class MajorEventService {
         return filtered.stream()
                 .map(EventListResponseDTO::of)
                 .collect(Collectors.toList());
+    }
+
+    public PagedEventListResponseDTO getAllMajorEventPage(int page, int size) {
+        List<MajorEvent> all = majorEventRepository.findAll();
+
+        LocalDate today = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+
+        List<MajorEvent> filtered = all.stream()
+                .filter(e -> isNotPassed(e, today, currentTime))
+                .collect(Collectors.toList());
+
+        filtered.sort(Comparator.comparing(MajorEvent::getDate)
+                .thenComparing(MajorEvent::getTime));
+
+        long totalElements = filtered.size();
+        int totalPages = (int) Math.ceil((double) totalElements / size);
+
+        if (page < 1) {
+            page = 1;
+        } else if (page >= totalPages && totalPages > 0) {
+            page = totalPages -1;
+        }
+        int zeroBasedPage = page - 1;
+        int startIndex = zeroBasedPage * size;
+        int endIndex = Math.min(startIndex + size, (int) totalElements);
+
+        List<MajorEvent> pageList = (startIndex < endIndex)
+                ? filtered.subList(startIndex, endIndex)
+                : Collections.emptyList();
+
+        List<EventListResponseDTO> content = pageList.stream()
+                .map(EventListResponseDTO::of)
+                .toList();
+
+        return PagedEventListResponseDTO.builder()
+                .currentPage(page)
+                .totalPages(totalPages)
+                .totalElements(totalElements)
+                .size(size)
+                .content(content)
+                .build();
+
     }
 
     @Transactional

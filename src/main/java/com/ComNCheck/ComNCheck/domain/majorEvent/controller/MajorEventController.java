@@ -4,6 +4,7 @@ import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.request.EventCreateRe
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.request.EventUpdateRequestDTO;
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.response.EventListResponseDTO;
 import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.response.EventResponseDTO;
+import com.ComNCheck.ComNCheck.domain.majorEvent.model.dto.response.PagedEventListResponseDTO;
 import com.ComNCheck.ComNCheck.domain.majorEvent.service.MajorEventService;
 import com.ComNCheck.ComNCheck.domain.security.oauth.CustomOAuth2Member;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/v1/major-event")
@@ -30,7 +32,7 @@ public class MajorEventController {
     public ResponseEntity<EventResponseDTO> createMajorEvent(@ModelAttribute EventCreateRequestDTO requestDTO,
                                                              Authentication authentication) {
         CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
-        Long memberId = principal.getMemberDTO().getId();
+        Long memberId = principal.getMemberDTO().getMemberId();
         EventResponseDTO responseDTO = majorEventService.createMajorEvent(requestDTO, memberId);
         return ResponseEntity.ok(responseDTO);
     }
@@ -45,6 +47,15 @@ public class MajorEventController {
     public ResponseEntity<List<EventListResponseDTO>> getAllMajorEventsNotPassed() {
         List<EventListResponseDTO> allMajorEventsNotPassed = majorEventService.getAllMajorEventsNotPassed();
         return ResponseEntity.ok(allMajorEventsNotPassed);
+    }
+
+    @GetMapping("/pages")
+    public ResponseEntity<PagedEventListResponseDTO> getAllMajorEventPage(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        PagedEventListResponseDTO responseDTO = majorEventService.getAllMajorEventPage(page, size);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @PutMapping("/{majorEventId}")
