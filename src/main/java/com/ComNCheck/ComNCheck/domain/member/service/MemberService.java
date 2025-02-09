@@ -44,7 +44,7 @@ public class MemberService {
             throw new ValidationException("이름 또는 전공이 일치하지 않습니다.");
         }
         member.setStudentNumber(studentNumber);
-        member.changeIsCheckStudentCard();
+        member.changeCheckStudentCard();
         Member savedMember = memberRepository.save(member);
 
         return MemberInformationResponseDTO.of(savedMember);
@@ -95,5 +95,44 @@ public class MemberService {
         //cookie.setSecure(true);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
+    }
+
+    @Transactional
+    public void changeAlarmMajorEvent(Long memberId) {
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 학생입니다."));
+        if(member.isAlarmMajorEvent()) {
+            member.offAlarmMajorEvent();
+        }
+        else {
+            member.onAlarmMajorEvent();
+        }
+        memberRepository.save(member);
+    }
+
+    @Transactional
+    public void changeAlarmMajorNotice(Long memberId) {
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 학생입니다."));
+        if(member.isAlarmMajorNotice()) {
+            member.offAlarmMajorNotice();
+        }
+        else {
+            member.onAlarmMajorNotice();
+        }
+        memberRepository.save(member);
+    }
+
+    @Transactional
+    public void changeAlarmEmploymentNotice(Long memberId) {
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 학생입니다."));
+        if(member.isAlarmEmploymentNotice()) {
+            member.offAlarmEmploymentNotice();
+        }
+        else {
+            member.onAlarmEmploymentNotice();
+        }
+        memberRepository.save(member);
     }
 }
