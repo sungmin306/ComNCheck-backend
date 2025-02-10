@@ -83,6 +83,7 @@ public class QuestionService {
                 .toList();
     }
 
+    @Transactional
     public List<QuestionResponseDTO> getUnanswerdAllQuestion(Long memberId) {
         Member member = memberRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
