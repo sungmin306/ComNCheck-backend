@@ -2,6 +2,8 @@ package com.ComNCheck.ComNCheck.domain.majorQuestion.service;
 
 
 import com.ComNCheck.ComNCheck.domain.global.exception.ForbiddenException;
+import com.ComNCheck.ComNCheck.domain.global.exception.MemberNotFoundException;
+import com.ComNCheck.ComNCheck.domain.global.exception.PostNotFoundException;
 import com.ComNCheck.ComNCheck.domain.member.model.entity.Member;
 import com.ComNCheck.ComNCheck.domain.member.model.entity.Role;
 import com.ComNCheck.ComNCheck.domain.member.repository.MemberRepository;
@@ -25,7 +27,7 @@ public class QuestionService {
     @Transactional
     public QuestionResponseDTO createQuestion(QuestionRequestDTO requestDTO, Long memberId) {
         Member writer = memberRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new MemberNotFoundException("회원이 존재하지 않습니다."));
 
         Question question = Question.builder()
                 .title(requestDTO.getTitle())
@@ -40,7 +42,7 @@ public class QuestionService {
 
     public List<QuestionResponseDTO> getAllQuestion(Long memberId) {
         Member member = memberRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new MemberNotFoundException("회원이 존재하지 않습니다."));
         isCheckRole(member);
 
         return questionRepository.findAll()
@@ -51,7 +53,7 @@ public class QuestionService {
 
     public QuestionResponseDTO getQuestion(Long questionId) {
         Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 질문이 존재하지 않습니다."));
+                .orElseThrow(() -> new PostNotFoundException("질문이 존재하지 않습니다."));
         return QuestionResponseDTO.of(question);
     }
 
@@ -66,7 +68,7 @@ public class QuestionService {
     @Transactional
     public QuestionResponseDTO updateQuestion(Long questionId, QuestionRequestDTO requestDTO, Long writerId) {
         Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 질문이 존재하지 않습니다."));
+                .orElseThrow(() -> new PostNotFoundException("질문이 존재하지 않습니다."));
 
         if (!question.getWriter().getMemberId().equals(writerId)) {
             throw new ForbiddenException("작성자가 아닙니다.");
@@ -79,7 +81,7 @@ public class QuestionService {
     @Transactional
     public void deleteQuestion(Long questionId, Long writerId) {
         Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 질문이 존재하지 않습니다."));
+                .orElseThrow(() -> new PostNotFoundException("해당 질문이 존재하지 않습니다."));
 
         if(!question.getWriter().getMemberId().equals(writerId)) {
             throw new ForbiddenException("작성자가 아닙니다.");
@@ -97,7 +99,7 @@ public class QuestionService {
     @Transactional
     public List<QuestionResponseDTO> getUnanswerdAllQuestion(Long memberId) {
         Member member = memberRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new MemberNotFoundException("회원이 존재하지 않습니다."));
         isCheckRole(member);
         return questionRepository.findByAnswerIsNull()
                 .stream()
@@ -108,7 +110,7 @@ public class QuestionService {
     public void isCheckRole(Member member) {
         Role checkRole = member.getRole();
         if(checkRole != Role.ROLE_ADMIN && checkRole != Role.ROLE_MAJOR_PRESIDENT && checkRole != Role.ROLE_STUDENT_COUNCIL) {
-            throw new IllegalArgumentException("접근 권한이 없습니다.");
+            throw new ForbiddenException("접근 권한이 없습니다.");
         }
     }
 }
