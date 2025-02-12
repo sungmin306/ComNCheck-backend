@@ -38,6 +38,17 @@ public class QuestionService {
         return QuestionResponseDTO.of(saveQuestion);
     }
 
+    public List<QuestionResponseDTO> getAllQuestion(Long memberId) {
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+        isCheckRole(member);
+
+        return questionRepository.findAll()
+                .stream()
+                .map(QuestionResponseDTO::of)
+                .toList();
+    }
+
     public QuestionResponseDTO getQuestion(Long questionId) {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 질문이 존재하지 않습니다."));
