@@ -74,7 +74,7 @@ public class QuestionService {
             throw new ForbiddenException("작성자가 아닙니다.");
         }
 
-        question.updateQuestion(requestDTO.getTitle(), requestDTO.getContent());
+        question.updateQuestion(requestDTO);
         return QuestionResponseDTO.of(question);
     }
 
