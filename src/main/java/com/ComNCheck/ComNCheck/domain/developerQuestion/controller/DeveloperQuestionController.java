@@ -87,4 +87,15 @@ public class DeveloperQuestionController {
         developerQuestionService.deleteDeveloperQuestion(developerQuestionId, writerId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/my")
+    @Operation(summary = "내가 쓴 개발자 질문 게시글 보기", description = "내가 쓴 글만 조회한다.")
+    public ResponseEntity<List<DeveloperQuestionResponseDTO>> getAllMyDeveloperQuestion(
+            Authentication authentication
+    ) {
+        CustomOAuth2Member principal = (CustomOAuth2Member) authentication.getPrincipal();
+        Long writerId = principal.getMemberDTO().getMemberId();
+        List<DeveloperQuestionResponseDTO> developerQuestions = developerQuestionService.getAllMyDeveloperQuestion(writerId);
+        return ResponseEntity.ok(developerQuestions);
+    }
 }

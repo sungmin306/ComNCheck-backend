@@ -74,6 +74,16 @@ public class DeveloperQuestionService {
         developerQuestionRepository.delete(developerQuestion);
     }
 
+    public List<DeveloperQuestionResponseDTO> getAllMyDeveloperQuestion(Long writerId) {
+        Member writer = memberRepository.findById(writerId)
+                .orElseThrow(() -> new MemberNotFoundException("회원이 존재하지 않습니다."));
+
+        return developerQuestionRepository.findAllByWriter(writer)
+                .stream()
+                .map(DeveloperQuestionResponseDTO::of)
+                .toList();
+    }
+
 
 
 
