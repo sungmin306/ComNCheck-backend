@@ -47,7 +47,7 @@ public class RoleChangeRequestService {
                 .orElseThrow(() -> new MemberNotFoundException("등록된 회원이 없습니다."));
         isCheckRole(member);
 
-        List<RoleChange> requests = roleChangeRequestRepository.findAll();
+        List<RoleChange> requests = roleChangeRequestRepository.findAllOrderByIdDesc();
         return requests.stream()
                 .map(RoleChangeListDTO::of)
                 .collect(Collectors.toList());
@@ -104,6 +104,23 @@ public class RoleChangeRequestService {
         RoleChange request = roleChangeRequestRepository.findById(requestId)
                 .orElseThrow(() -> new ApplyNotFoundException("등록된 학생회 신청이 없습니다."));
         roleChangeRequestRepository.delete(request);
+    }
+
+    @Transactional
+    public RoleChangeResponseDTO updateRoleChange(Long requestId, Long memberId, String updatePosition, Role updateRole) {
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("등록된 회원이 없습니다."));
+        isCheckRole(member);
+
+        RoleChange role = roleChangeRequestRepository.findById(requestId)
+                .orElseThrow(() -> new ApplyNotFoundException("등록된 학생회 신청이 없습니다."));
+
+        role.update(updatePosition, updateRole);
+        Member updateMember = role.getMember();
+        updateMember.updateRole(role.getRequestRole());
+        updateMember.updatePosition(role.getRequestPosition());
+
+        return RoleChangeResponseDTO.of(role);
     }
 
     public void isCheckRole(Member member) {
